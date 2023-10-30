@@ -1,0 +1,76 @@
+<mat-toolbar color="primary">
+    <span>GreatFlavor</span>
+    <span class="example-spacer"></span>
+    <span *ngIf="mobileOrDescMenu">
+        <a
+            [routerLinkActiveOptions]="{ exact: true }"
+            [routerLinkActive]="'activeRoute'"
+            [routerLink]="['/']"
+            color="primary"
+            mat-flat-button
+        >
+            Recipes
+        </a>
+        <a
+            *ngIf="isAuthorized"
+            [routerLinkActive]="'activeRoute'"
+            [routerLink]="['profile']"
+            color="primary"
+            mat-flat-button
+            >Profile</a
+        >
+        <a [routerLinkActive]="'activeRoute'" [routerLink]="['favorites']" color="primary" mat-flat-button>
+            My favorites
+        </a>
+        <a [routerLinkActive]="'activeRoute'" [routerLink]="['bot']" color="primary" mat-flat-button>Bot</a>
+        <a
+            *ngIf="!isAuthorized"
+            [routerLinkActive]="'activeRoute'"
+            [routerLink]="['authorization']"
+            color="primary"
+            mat-flat-button
+        >
+            Sigh up/Log in
+        </a>
+    </span>
+
+    <span *ngIf="!mobileOrDescMenu">
+        <button mat-button [matMenuTriggerFor]="beforeMenu">{{ currentPage }}</button>
+        <mat-menu #beforeMenu="matMenu" xPosition="before">
+            <a
+                [routerLinkActiveOptions]="{ exact: true }"
+                [routerLinkActive]="'activeRoute'"
+                [routerLink]="['/']"
+                color="primary"
+                (click)="setPath('Recipes')"
+                mat-menu-item
+            >
+                Recipes
+            </a>
+            <a
+                *ngIf="isAuthorized"
+                (click)="setPath('Profile')"
+                [routerLinkActive]="'activeRoute'"
+                [routerLink]="['profile']"
+                mat-menu-item
+                >Profile</a
+            >
+            <a
+                (click)="setPath('My favorites')"
+                [routerLinkActive]="'activeRoute'"
+                [routerLink]="['favorites']"
+                mat-menu-item
+                >My favorites</a
+            >
+            <a (click)="setPath('Bot')" [routerLinkActive]="'activeRoute'" [routerLink]="['bot']" mat-menu-item>Bot</a>
+            <a
+                (click)="setPath('Sigh up/Log in')"
+                [routerLinkActive]="'activeRoute'"
+                [routerLink]="['authorization']"
+                *ngIf="!isAuthorized"
+                mat-menu-item
+                >Sigh up/Log in</a
+            >
+        </mat-menu>
+    </span>
+</mat-toolbar>

@@ -1,0 +1,271 @@
+<!-- to remove filled remove class from mat-icon -->
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+/>
+<button
+    *ngIf="veryPopular"
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with menu icon"
+    matTooltip="Popular"
+>
+    <svg width="23px" height="23px" viewBox="0 0 23 23">
+        <path
+            d="M12,21c3.9,0,7-2,7-7S14,9,14,3c-3,2-4.37,4.1-5,8A5,5,0,0,1,7,8c-1,1-2,4-2,6C5,17.14,6.28,21,12,21Z"
+            style="fill: #f0350f; stroke: black; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1px"
+        ></path>
+    </svg>
+</button>
+<button
+    *ngIf="veryHealthy"
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with menu icon"
+    matTooltip="Healthy"
+>
+    <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="65px" height="65px" viewBox="0 0 65 65">
+        <g transform="translate(0.000000,64.000000) scale(0.100000,-0.100000)" fill="#1B8533" stroke="none">
+            <path
+                d="M291 568 c-19 -51 -21 -67 -11 -73 5 -3 10 -15 10 -26 0 -15 6 -19
+28 -18 15 1 43 -1 63 -5 30 -6 39 -4 48 11 10 17 10 17 11 0 0 -10 -7 -20 -15
+-23 -8 -4 -15 -15 -15 -26 0 -11 -11 -34 -25 -50 -14 -17 -31 -50 -37 -74 -14
+-51 -28 -48 -28 5 0 43 -9 53 -63 71 -54 17 -121 5 -159 -29 -31 -27 -32 -31
+-32 -113 -1 -97 6 -111 69 -139 52 -24 89 -24 167 1 43 14 77 18 108 14 30 -4
+58 -1 81 9 33 14 36 18 48 85 13 70 9 120 -20 290 -13 72 -17 76 -119 97 -93
+20 -99 19 -109 -7z m-58 -372 c37 0 67 -3 67 -7 0 -12 -53 -29 -94 -29 -33 0
+-48 6 -67 26 l-24 27 25 -9 c14 -4 55 -8 93 -8z"
+            />
+        </g>
+    </svg>
+</button>
+<button
+    *ngIf="vegetarian"
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with menu icon"
+    matTooltip="Vegetarian"
+    (click)="getDiet('lacto ovo vegetarian')"
+    >
+    <!-- (click)="getDiet('vegetarian')" -->
+    <svg width="100.000000pt" height="100.000000pt" viewBox="0 0 90 100">
+        <g transform="translate(0.000000,100.000000) scale(0.100000,-0.100000)" fill="#1B8533" stroke="none">
+            <path
+                d="M703 905 c-113 -27 -156 -57 -190 -131 -25 -55 -29 -124 -7 -131 6
+-2 19 14 28 36 10 22 34 54 54 73 37 35 36 32 -15 -49 -37 -58 -76 -152 -119
+-285 -15 -48 -29 -86 -31 -84 -2 1 -19 61 -38 132 -48 175 -97 273 -177 355
+-60 62 -121 100 -135 85 -4 -4 -3 -13 2 -20 6 -7 33 -43 61 -81 96 -126 153
+-273 215 -549 16 -72 34 -135 38 -139 5 -5 24 -7 42 -5 l34 3 18 95 c39 214
+97 395 129 404 7 2 32 9 56 15 42 12 104 58 122 92 6 9 14 50 20 90 6 39 13
+82 16 95 8 30 1 30 -123 -1z m92 -62 c-4 -32 -11 -72 -16 -90 -14 -45 -69 -90
+-134 -109 -33 -9 -61 -24 -70 -37 -35 -55 -83 -230 -119 -439 -6 -32 -11 -38
+-31 -38 -17 0 -26 7 -30 23 -84 373 -143 539 -234 656 -44 57 -47 67 -14 43
+35 -25 98 -99 132 -154 27 -45 59 -136 101 -290 18 -65 37 -118 44 -118 6 0
+29 57 51 127 46 147 108 281 159 340 41 47 43 53 19 53 -30 0 -81 -37 -113
+-81 -35 -49 -41 -29 -11 36 22 50 69 91 119 105 83 23 108 28 130 29 23 1 23
+-1 17 -56z"
+            />
+        </g>
+    </svg>
+</button>
+<button
+    *ngIf="vegan"
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with menu icon"
+    matTooltip="Vegan"
+    (click)="getDiet('vegan')"
+>
+    <svg width="50.000000pt" height="50.000000pt" viewBox="0 0 37.000000 50.000000">
+        <g transform="translate(0.000000,50.000000) scale(0.100000,-0.100000)" fill="#1B8533" stroke="black">
+            <path
+                d="M70 423 c-16 -25 -33 -62 -36 -81 -8 -43 10 -107 36 -125 11 -8 23
+-28 26 -45 4 -18 11 -32 17 -32 6 0 6 15 1 43 -5 23 -9 77 -9 120 0 65 -2 75
+-12 60 -7 -9 -13 -42 -13 -72 -1 -54 -1 -55 -15 -31 -8 14 -14 39 -15 56 0 33
+39 115 58 122 6 2 21 -16 33 -41 24 -49 21 -105 -6 -127 -8 -7 -15 -19 -15
+-27 0 -13 3 -13 16 -2 29 24 46 71 41 111 -5 41 -50 118 -67 118 -6 0 -24 -21
+-40 -47z"
+            />
+            <path
+                d="M213 281 c-46 -21 -70 -58 -76 -113 -2 -19 -14 -49 -26 -67 -36 -51
+-15 -49 30 3 52 59 102 85 179 93 40 4 58 9 51 16 -15 15 -116 -2 -166 -28
+l-45 -24 0 22 c0 51 63 97 132 97 41 0 136 -43 145 -65 8 -23 -61 -91 -114
+-111 -41 -16 -83 -15 -140 2 -13 3 -23 2 -23 -3 0 -12 67 -33 102 -33 62 0
+136 43 185 107 l27 36 -33 28 c-39 32 -110 59 -155 59 -17 0 -50 -9 -73 -19z"
+            />
+        </g>
+    </svg>
+</button>
+<button
+    *ngIf="dairyFree"
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with menu icon"
+    matTooltip="Dairy free"
+    (click)="getIntolerance('Dairy')"
+>
+    <img src="../../assets/dairy.png" alt="234" />
+</button>
+<button
+    *ngIf="cheap"
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with menu icon"
+    matTooltip="Low price"
+>
+    <svg
+        width="44px"
+        height="44px"
+        viewBox="0 0 60 60"
+        style="shape-rendering: geometricPrecision; fill-rule: evenodd; clip-rule: evenodd"
+    >
+        <path
+            fill="#000000"
+            d="M 14.5,3.5 C 25.8333,3.83333 37.1667,4.16667 48.5,4.5C 48.5,14.1667 48.5,23.8333 48.5,33.5C 51.8499,33.335 55.1832,33.5017 58.5,34C 50.0159,43.6509 41.0159,52.8176 31.5,61.5C 21.9841,52.8176 12.9841,43.6509 4.5,34C 7.81677,33.5017 11.1501,33.335 14.5,33.5C 14.5,23.5 14.5,13.5 14.5,3.5 Z M 30.5,12.5 C 31.8589,13.0065 32.8589,14.0065 33.5,15.5C 34.7362,16.2458 36.0695,16.5792 37.5,16.5C 37.5,17.5 37.5,18.5 37.5,19.5C 34.4816,19.3354 31.4816,19.502 28.5,20C 28.0426,20.414 27.7093,20.914 27.5,21.5C 30.3617,24.1875 33.5283,26.5209 37,28.5C 39.6904,33.4426 38.5237,36.9426 33.5,39C 32.3955,43.2259 31.0622,43.3926 29.5,39.5C 27.6666,38.9479 25.9999,38.1145 24.5,37C 25.1258,36.2496 25.6258,35.4162 26,34.5C 29.7572,37.3799 32.9238,36.8799 35.5,33C 32.3845,29.506 28.8845,26.3393 25,23.5C 24.1387,19.344 25.8053,16.6773 30,15.5C 30.4828,14.552 30.6495,13.552 30.5,12.5 Z"
+        />
+    </svg>
+</button>
+
+<button
+    *ngIf="glutenFree"
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with menu icon"
+    matTooltip="Gluten free"
+    (click)="getIntolerance('Gluten')"
+>
+    <svg x="0px" y="0px" viewBox="0 0 512 512" style="enable-background: new 0 0 512 512" xml:space="preserve">
+        <path
+            style="fill: rgb(171, 71, 63)"
+            d="M256,0C114.844,0,0,114.844,0,256s114.844,256,256,256s256-114.844,256-256S397.156,0,256,0z"
+            fill="#E83628"
+        ></path>
+        <path
+            style="fill: rgb(255, 255, 255)"
+            d="M256,469.333c-117.633,0-213.333-95.701-213.333-213.333S138.367,42.667,256,42.667 S469.333,138.367,469.333,256S373.633,469.333,256,469.333z"
+            fill="#E1BBA5"
+        ></path>
+        <path
+            d="M330.667,85.333C324.771,85.333,320,90.104,320,96v54.526c-12.947,2.112-35.497,8.165-53.333,25.555 V74.667C266.667,68.771,261.896,64,256,64c-5.896,0-10.667,4.771-10.667,10.667v101.414c-17.836-17.389-40.387-23.443-53.333-25.555 V96c0-5.896-4.771-10.667-10.667-10.667c-5.896,0-10.667,4.771-10.667,10.667v264.115C170.667,408.573,208.938,448,256,448 s85.333-39.427,85.333-87.885V96C341.333,90.104,336.563,85.333,330.667,85.333z"
+            fill="#303C42"
+        ></path>
+        <g>
+            <path
+                d="M320,321.193c-12.947,2.112-35.497,8.165-53.333,25.555v-45.93 c10.452-30.402,37.828-40.163,53.333-43.272V321.193z"
+                fill="#FDB913"
+            ></path>
+            <path
+                d="M192,257.616c15.474,3.169,42.935,12.988,53.333,43.21v45.922 c-17.836-17.389-40.387-23.443-53.333-25.555V257.616z"
+                fill="#FDB913"
+            ></path>
+            <path
+                d="M320,172.212v63.647c-12.947,2.112-35.497,8.165-53.333,25.555v-45.93 C277.118,185.082,304.495,175.322,320,172.212z"
+                fill="#FDB913"
+            ></path>
+            <path
+                d="M245.333,215.492v45.922c-17.836-17.389-40.387-23.443-53.333-25.555v-63.577 C207.474,175.452,234.935,185.271,245.333,215.492z"
+                fill="#FDB913"
+            ></path>
+        </g>
+        <g>
+            <path
+                style="opacity: 0.2; enable-background: new"
+                d="M266.667,215.484v19.788 C277.118,204.87,304.495,195.109,320,192v-19.788C304.495,175.322,277.118,185.082,266.667,215.484z"
+                fill="#FFFFFF"
+            ></path>
+            <path
+                style="opacity: 0.2; enable-background: new"
+                d="M192,172.283v19.788 c15.474,3.169,42.935,12.988,53.333,43.21v-19.788C234.935,185.271,207.474,175.452,192,172.283z"
+                fill="#FFFFFF"
+            ></path>
+        </g>
+        <g>
+            <path
+                d="M192,360.115v-17.165c15.474,3.169,42.935,12.988,53.333,43.21v39.387 C215.128,420.228,192,393.014,192,360.115z"
+                fill="#FDB913"
+            ></path>
+            <path
+                d="M266.667,425.546v-39.395c10.452-30.402,37.828-40.163,53.333-43.272v17.236 C320,393.014,296.872,420.228,266.667,425.546z"
+                fill="#FDB913"
+            ></path>
+        </g>
+        <path
+            style="opacity: 0.1; enable-background: new"
+            d="M192.272,343.016c-0.085-0.017-0.189-0.049-0.272-0.066v17.165 c0,32.9,23.128,60.113,53.333,65.431v-20.212C216.104,400.188,193.702,374.479,192.272,343.016z"
+            fill="#000000"
+        ></path>
+        <path
+            style="opacity: 0.1; enable-background: new"
+            d="M266.667,405.333v20.212C296.872,420.228,320,393.014,320,360.115v-17.236 c-0.082,0.017-0.184,0.047-0.266,0.064C318.336,374.441,295.919,400.184,266.667,405.333z"
+            fill="#000000"
+        ></path>
+        <rect
+            x="234.651"
+            y="14.637"
+            transform="matrix(-0.7071 0.7071 -0.7071 -0.7071 618.0074 255.9979)"
+            style="fill: rgb(171, 71, 63)"
+            width="42.667"
+            height="482.712"
+            fill="#E83628"
+        ></rect>
+        <linearGradient
+            id="SVGID_1_"
+            gradientUnits="userSpaceOnUse"
+            x1="-45.5784"
+            y1="639.555"
+            x2="-23.8278"
+            y2="629.4138"
+            gradientTransform="matrix(21.3333 0 0 -21.3333 996.3334 13791.667)"
+        >
+            <stop offset="0" style="stop-color: #ffffff; stop-opacity: 0.2"></stop>
+            <stop offset="1" style="stop-color: #ffffff; stop-opacity: 0"></stop>
+        </linearGradient>
+        <path
+            d="M256,0C114.844,0,0,114.844,0,256s114.844,256,256,256s256-114.844,256-256S397.156,0,256,0z"
+            fill="url(#SVGID_1_)"
+        ></path>
+    </svg>
+</button>
+<!-- <button mat-icon-button aria-label="Example icon-button with menu icon" [title]="'Ready in ' + time + ' min'">
+    <mat-icon class="material-symbols-outlined"> timer </mat-icon>
+</button> -->
+<!-- <button
+    mat-icon-button
+    [matBadge]="time"
+    matBadgeColor="accent"
+    aria-label="Example icon-button with menu icon"
+    [title]="'Ready in ' + time + ' min'"
+>
+    <mat-icon class="material-symbols-outlined"> timer </mat-icon>
+</button> -->
+
+<!-- <div class="demo-section">
+    Icon with a badge
+    <mat-icon [matBadge]="time" matBadgeColor="warn">home</mat-icon>
+      Include text description of the icon's meaning for screen-readers
+      <span class="cdk-visually-hidden">
+        Example with a home icon with overlaid badge showing the number 15
+      </span>
+  </div> -->
+<!-- <button mat-icon-button aria-label="Example icon-button with menu icon" title="Favorite" (click)="isFilled = !isFilled">
+    <mat-icon
+        class="colorRed"
+        [ngClass]="{
+            'material-symbols-outlined': isFilled
+        }"
+        >favorite</mat-icon
+    >
+</button> -->
+
+<!-- <button class="button" aria-label="Example icon-button with menu icon" title="Carbohydrates ">
+    <span class="span">Carbs</span> 57.66
+</button>
+<button class="button" aria-label="Example icon-button with menu icon" title="Calories">
+    <span class="span">Calories</span> 422.67
+</button>
+<button class="button" aria-label="Example icon-button with menu icon" title="Calories">
+    <span class="span">Fat</span> 10.32
+</button>
+<button class="button" aria-label="Example icon-button with menu icon" title="Calories">
+    <span class="span">Protein</span> 24.32
+</button> -->

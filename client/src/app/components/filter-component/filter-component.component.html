@@ -1,0 +1,253 @@
+<mat-accordion>
+    <mat-expansion-panel [expanded]="isPanelOpen === 'dish'" hideToggle class="panel">
+        <mat-expansion-panel-header class="title">
+            <mat-panel-title> Dish type </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-divider class="mb10"></mat-divider>
+        <section *ngFor="let dish of dishTypes" class="section">
+            <mat-slide-toggle
+                class="example-margin"
+                [color]="'primary'"
+                [disabled]="false"
+                [checked]="getDishTypeState(dish)"
+                (click)="toggleSelectedDishTypes(dish)"
+            >
+                {{ dish }}
+            </mat-slide-toggle>
+        </section>
+    </mat-expansion-panel>
+</mat-accordion>
+
+<mat-accordion>
+    <mat-expansion-panel hideToggle class="panel">
+        <mat-expansion-panel-header class="title">
+            <mat-panel-title> Cuisine </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-divider class="mb10"></mat-divider>
+        <section *ngFor="let cuisine of cuisines" class="section">
+            <mat-slide-toggle
+                class="example-margin"
+                [color]="'primary'"
+                (click)="toggleSelectedCuisines(cuisine)"
+                [checked]="getCuisineState(cuisine)"
+                [disabled]="false"
+            >
+                {{ cuisine }}
+            </mat-slide-toggle>
+        </section>
+    </mat-expansion-panel>
+</mat-accordion>
+<mat-accordion>
+    <mat-expansion-panel [expanded]="isPanelOpen === 'diet'" hideToggle class="panel">
+        <mat-expansion-panel-header class="title">
+            <mat-panel-title>Diet </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-divider class="mb10"></mat-divider>
+        <section *ngFor="let oneDiet of diets" class="section">
+            <mat-slide-toggle
+                class="example-margin"
+                [color]="'primary'"
+                [disabled]="false"
+                [checked]="getDietState(oneDiet)"
+                (click)="toggleSelectedDiets(oneDiet)"
+            >
+                {{ oneDiet }}
+            </mat-slide-toggle>
+        </section>
+    </mat-expansion-panel>
+</mat-accordion>
+
+<mat-accordion>
+    <mat-expansion-panel [expanded]="isPanelOpen === 'intolerance'" hideToggle class="panel">
+        <mat-expansion-panel-header class="title">
+            <mat-panel-title>Intolerances </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-divider class="mb10"></mat-divider>
+        <section *ngFor="let intolerance of intolerances" class="section">
+            <mat-slide-toggle
+                class="example-margin"
+                [color]="'primary'"
+                [disabled]="false"
+                [checked]="getIntoleranceState(intolerance)"
+                (click)="toggleSelectedIntolerances(intolerance)"
+            >
+                {{ intolerance }}
+            </mat-slide-toggle>
+        </section>
+    </mat-expansion-panel>
+</mat-accordion>
+<mat-accordion>
+    <mat-expansion-panel hideToggle class="panel">
+        <mat-expansion-panel-header class="title">
+            <mat-panel-title>Ingredients </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-divider class="mb10"></mat-divider>
+        <p>This is the primary content of the panel.</p>
+    </mat-expansion-panel>
+</mat-accordion>
+
+<mat-accordion>
+    <mat-expansion-panel [expanded]="isPanelOpen === 'kcal'" hideToggle class="panel">
+        <mat-expansion-panel-header class="title">
+            <mat-panel-title>Calories</mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-divider class="mb10"></mat-divider>
+        <mat-slide-toggle
+            class="example-margin mb10"
+            [color]="'primary'"
+            (click)="toggleAndDisableFalse('enableCalories')"
+            [checked]="enableCalories"
+            [disabled]="false"
+        >
+            Enable
+        </mat-slide-toggle>
+        <mat-form-field class="example-margin example-width">
+            <mat-label>Min value</mat-label>
+            <input [disabled]="!enableCalories" matInput type="number" [(ngModel)]="minCalories" />
+        </mat-form-field>
+        <mat-form-field class="example-margin example-width">
+            <mat-label>Max value</mat-label>
+            <input [disabled]="!enableCalories" matInput type="number" [(ngModel)]="maxCalories" />
+        </mat-form-field>
+        <mat-slider step="25" min="0" max="1000">
+            <input [disabled]="!enableCalories" [(ngModel)]="minCalories" matSliderStartThumb />
+            <input [disabled]="!enableCalories" [(ngModel)]="maxCalories" matSliderEndThumb />
+        </mat-slider>
+        <p>min: {{ minCalories }}</p>
+        <p>max: {{ maxCalories }}</p>
+    </mat-expansion-panel>
+</mat-accordion>
+<mat-accordion>
+    <mat-expansion-panel hideToggle class="panel">
+        <mat-expansion-panel-header class="title">
+            <mat-panel-title>Protein</mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-divider class="mb10"></mat-divider>
+        <mat-slide-toggle
+            class="example-margin mb10"
+            [color]="'primary'"
+            (click)="toggleAndDisableFalse('enableProteins')"
+            [checked]="enableProteins"
+            [disabled]="false"
+        >
+            Enable
+        </mat-slide-toggle>
+        <mat-form-field class="example-margin example-width">
+            <mat-label>Min value</mat-label>
+            <input [disabled]="!enableProteins" matInput type="number" [(ngModel)]="minProtein" />
+        </mat-form-field>
+        <mat-form-field class="example-margin example-width">
+            <mat-label>Max value</mat-label>
+            <input [disabled]="!enableProteins" matInput type="number" [(ngModel)]="maxProtein" />
+        </mat-form-field>
+        <mat-slider step="25" min="0" max="800">
+            <input [disabled]="!enableProteins" [(ngModel)]="minProtein" matSliderStartThumb />
+            <input [disabled]="!enableProteins" [(ngModel)]="maxProtein" matSliderEndThumb />
+        </mat-slider>
+    </mat-expansion-panel>
+</mat-accordion>
+<mat-accordion>
+    <mat-expansion-panel hideToggle class="panel">
+        <mat-expansion-panel-header class="title">
+            <mat-panel-title>Fat</mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-divider class="mb10"></mat-divider>
+        <mat-slide-toggle
+            class="example-margin mb10"
+            [color]="'primary'"
+            (click)="toggleAndDisableFalse('enableFats')"
+            [checked]="enableFats"
+            [disabled]="false"
+        >
+            Enable
+        </mat-slide-toggle>
+        <mat-form-field class="example-margin example-width">
+            <mat-label>Min value</mat-label>
+            <input [disabled]="!enableFats" matInput type="number" [(ngModel)]="minFat" />
+        </mat-form-field>
+        <mat-form-field class="example-margin example-width">
+            <mat-label>Max value</mat-label>
+            <input [disabled]="!enableFats" matInput type="number" [(ngModel)]="maxFat" />
+        </mat-form-field>
+        <mat-slider step="25" min="0" max="800">
+            <input [disabled]="!enableFats" [(ngModel)]="minFat" matSliderStartThumb />
+            <input [disabled]="!enableFats" [(ngModel)]="maxFat" matSliderEndThumb />
+        </mat-slider>
+    </mat-expansion-panel>
+</mat-accordion>
+<mat-accordion>
+    <mat-expansion-panel hideToggle class="panel">
+        <mat-expansion-panel-header class="title">
+            <mat-panel-title>Carbohydrates</mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-divider class="mb10"></mat-divider>
+        <mat-slide-toggle
+            class="example-margin mb10"
+            [color]="'primary'"
+            (click)="toggleAndDisableFalse('enableCarbohydrates')"
+            [checked]="enableCarbohydrates"
+            [disabled]="false"
+        >
+            Enable
+        </mat-slide-toggle>
+        <mat-form-field class="example-margin example-width">
+            <mat-label>Min value</mat-label>
+            <input [disabled]="!enableCarbohydrates" matInput type="number" [(ngModel)]="minCarbohydrates" />
+        </mat-form-field>
+        <mat-form-field class="example-margin example-width">
+            <mat-label>Max value</mat-label>
+            <input [disabled]="!enableCarbohydrates" matInput type="number" [(ngModel)]="maxCarbohydrates" />
+        </mat-form-field>
+        <mat-slider step="25" min="0" max="800">
+            <input [disabled]="!enableCarbohydrates" [(ngModel)]="minCarbohydrates" matSliderStartThumb />
+            <input [disabled]="!enableCarbohydrates" [(ngModel)]="maxCarbohydrates" matSliderEndThumb />
+        </mat-slider>
+    </mat-expansion-panel>
+</mat-accordion>
+
+<mat-accordion>
+    <mat-expansion-panel [expanded]="isPanelOpen === 'time'" hideToggle class="panel">
+        <mat-expansion-panel-header class="title">
+            <mat-panel-title>Cooking time (min)</mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-divider class="mb10"></mat-divider>
+        <mat-slide-toggle
+            class="example-margin mb10"
+            [color]="'primary'"
+            (click)="toggleAndDisableFalse('enableTime')"
+            [checked]="enableTime"
+            [disabled]="false"
+        >
+            Enable
+        </mat-slide-toggle>
+        <mat-form-field class="example-margin example-width">
+            <mat-label>Min value</mat-label>
+            <input [disabled]="!enableTime" matInput type="number" [(ngModel)]="maxTime" />
+        </mat-form-field>
+        <mat-slider step="5" max="700">
+            <input [disabled]="!enableTime" [(ngModel)]="maxTime" matSliderThumb />
+        </mat-slider>
+    </mat-expansion-panel>
+</mat-accordion>
+
+<mat-accordion>
+    <mat-expansion-panel hideToggle class="panel">
+        <mat-expansion-panel-header class="title">
+            <mat-panel-title>Step-by-step cooking</mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-divider class="mb10"></mat-divider>
+        <mat-slide-toggle
+            class="example-margin"
+            [color]="'primary'"
+            (click)="toggleAndDisableFalse('includeStepByStepCooking')"
+            [checked]="includeStepByStepCooking"
+            [disabled]="false"
+        >
+            Include
+        </mat-slide-toggle>
+    </mat-expansion-panel>
+</mat-accordion>
+<div style="display: flex">
+    <button (click)="disable()" [disabled]="isDisable" class="applyButton" mat-raised-button color="warn">Reset</button>
+    <button class="applyButton" mat-raised-button color="primary">Apply</button>
+</div>

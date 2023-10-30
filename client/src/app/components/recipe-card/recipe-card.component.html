@@ -1,0 +1,64 @@
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+/>
+<mat-card class="example-card">
+    <mat-card-header class="title">
+        <mat-card-title>{{ recipe.title }}</mat-card-title>
+        <!-- <mat-card-subtitle>Dog Breed</mat-card-subtitle> -->
+    </mat-card-header>
+    <div class="imageWrapper">
+        <img mat-card-image [src]="recipe.image" alt="Photo of a dish" />
+        <button
+            mat-raised-button
+            color="accent"
+            class="timeBlock overImg"
+            (click)="getTime()"
+        >
+            {{ recipe.readyInMinutes + ' min' }}
+        </button>
+        <button
+            mat-raised-button
+            color="accent"
+            class="calBlock overImg"
+            (click)="getCalories()"
+        >
+            {{ recipe.nutrition.nutrients[0].amount + ' kcal' }}
+        </button>
+    </div>
+    <mat-card-content class="mt6" style="display: flex; flex-direction: column; flex: 1 1 auto">
+        <app-icons
+            [vegan]="recipe.vegan"
+            [vegetarian]="recipe.vegetarian"
+            [dairyFree]="recipe.dairyFree"
+            [veryHealthy]="recipe.veryHealthy"
+            [veryPopular]="recipe.veryPopular"
+            [cheap]="recipe.cheap"
+            [lowFodmap]="recipe.lowFodmap"
+            [sustainable]="recipe.sustainable"
+            [glutenFree]="recipe.glutenFree"
+            [time]="recipe.readyInMinutes"
+        ></app-icons>
+    </mat-card-content>
+    <div style="width: 93%; margin: 0px auto">
+        <mat-divider></mat-divider>
+        <div style="display: flex">
+            <button mat-button [matMenuTriggerFor]="ingridients">Ingridients</button>
+            <mat-menu #ingridients="matMenu">
+                <div *ngFor="let ingridient of recipe.nutrition.ingredients">
+                    <button (click)="getIngridient(ingridient.name)" class="ingridientOption" mat-menu-item>{{ '&#9679; ' + ingridient.name }}</button>
+                </div>
+            </mat-menu>
+            <span class="space"></span>
+            <button mat-button [matMenuTriggerFor]="dishTypea">Dish types</button>
+            <mat-menu #dishTypea="matMenu">
+                <div *ngFor="let type of recipe.dishTypes">
+                    <button (click)="getDishType(type)" class="ingridientOption" mat-menu-item>{{ '&#9679; ' + type }}</button>
+                </div>
+            </mat-menu>
+        </div>
+    </div>
+    <mat-card-actions>
+        <button class="center" mat-raised-button color="primary">View recipe</button>
+    </mat-card-actions>
+</mat-card>

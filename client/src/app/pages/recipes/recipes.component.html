@@ -1,0 +1,24 @@
+<p>Current number of skip: {{ numberOfSkip }}</p>
+
+<div class="wrapper" *ngIf="newRecipes">
+    <button
+        class="filterIcon"
+        *ngIf="pageWidth <= 600"
+        mat-icon-button
+        aria-label="Example icon-button with menu icon"
+        [title]="'Filter'"
+    >
+        <mat-icon class="material-symbols-outlined"> tune </mat-icon>
+    </button>
+    <div class="filterWrapper"><div class="filterContent"><app-filter-component></app-filter-component></div></div>
+    <mat-grid-list class="recipesWrapper" [cols]="numberOfCols" rowHeight="500px">
+        <div *ngFor="let recipe of mockRecipes">
+            <mat-grid-tile>
+                <app-recipe-card [recipe]="recipe"></app-recipe-card>
+            </mat-grid-tile>
+        </div>
+    </mat-grid-list>
+</div>
+
+<!-- <button mat-raised-button color="primary" (click)="getRecipes()">get more recipes</button> -->
+<button mat-raised-button color="primary" (click)="getMockResipes()">get moke recipes</button>

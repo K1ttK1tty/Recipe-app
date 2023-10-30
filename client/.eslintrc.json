@@ -1,0 +1,79 @@
+{
+    "root": true,
+    "ignorePatterns": ["projects/**/*"],
+    "parser": "babel-eslint",
+    "overrides": [
+        {
+            "files": ["*.ts"],
+            "extends": [
+                "eslint:recommended",
+                "plugin:prettier/recommended",
+                "plugin:@typescript-eslint/recommended",
+                "plugin:@angular-eslint/recommended",
+                "plugin:@angular-eslint/template/process-inline-templates"
+            ],
+            "rules": {
+                "prettier/prettier": ["error", { "endOfLine": "auto" }],
+                "no-console": "warn",
+                "prefer-const": "error",
+                "max-len": ["error", { "code": 120 }],
+                "camelcase": "warn",
+                "array-callback-return": "error",
+                "no-duplicate-imports": "error",
+                "func-style": ["error", "expression", { "allowArrowFunctions": true }],
+                "no-multi-assign": "error",
+                "no-return-assign": "error",
+                "no-return-await": "error",
+                "no-unneeded-ternary": "warn",
+                "no-useless-concat": "warn",
+                "sort-imports": [
+                    "warn",
+                    {
+                        "ignoreCase": true,
+                        "ignoreDeclarationSort": true,
+                        "ignoreMemberSort": true,
+                        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
+                        "allowSeparatedGroups": true
+                    }
+                ],
+                "yoda": "warn",
+                // formatting layout
+
+                "dot-location": ["warn", "object"],
+                "jsx-quotes": ["warn", "prefer-double"],
+                "key-spacing": ["warn", { "afterColon": true }],
+                "keyword-spacing": ["warn", { "before": true }],
+                "no-multi-spaces": "warn",
+                "no-whitespace-before-property": "warn",
+                "object-curly-newline": ["warn", { "multiline": true }],
+                "padded-blocks": ["warn", "never"],
+                "quotes": ["warn", "single"],
+                "rest-spread-spacing": ["warn", "never"],
+                "semi": ["warn", "always"],
+                "semi-spacing": ["warn", { "before": false, "after": true }],
+                "semi-style": ["warn", "last"],
+                "space-in-parens": ["warn", "never"],
+                "space-infix-ops": ["error", { "int32Hint": false }],
+                "@angular-eslint/directive-selector": [
+                    "error",
+                    { "type": "attribute", "prefix": "app", "style": "camelCase" }
+                ],
+                "@angular-eslint/component-selector": [
+                    "error",
+                    { "type": "element", "prefix": "app", "style": "kebab-case" }
+                ]
+            }
+        }
+        // {
+        //     "files": ["*.html"],
+        //     "extends": ["plugin:@angular-eslint/template/recommended", "plugin:@angular-eslint/template/accessibility","plugin:prettier/recommended"],
+        //     "rules": {
+        //         "max-len": ["error", { "code": 120 }]
+        //         /**
+        //          * Any template/HTML related rules you wish to use/reconfigure over and above the
+        //          * recommended set provided by the @angular-eslint project would go here.
+        //          */
+        //     }
+        // }
+    ]
+}

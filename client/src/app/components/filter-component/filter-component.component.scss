@@ -1,0 +1,24 @@
+.title {
+    height: 40px;
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.04) !important;
+    }
+}
+.panel {
+    margin-bottom: 14px !important;
+    background-color: #f8f8f8;
+}
+.applyButton {
+    margin: 0px auto;
+    display: block;
+    padding: 0px 35px;
+}
+.section {
+    margin-bottom: 10px;
+}
+mat-slider {
+    width: 100%;
+}
+.mb10 {
+    margin-bottom: 10px;
+}
