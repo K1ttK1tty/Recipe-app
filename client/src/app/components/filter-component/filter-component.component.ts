@@ -3,6 +3,8 @@ import { FilterService } from 'src/app/services/filter.service';
 
 import { ICuisines, IDishType } from 'src/app/models/RecipeModel';
 
+import { allCuisines, allDiets, allDishTypes, allIntolerances } from './data';
+
 @Component({
     selector: 'app-filter-component',
     templateUrl: './filter-component.component.html',
@@ -10,17 +12,27 @@ import { ICuisines, IDishType } from 'src/app/models/RecipeModel';
 })
 export class FilterComponentComponent implements DoCheck {
     constructor(private filterService: FilterService) {}
+    diets: string[] = allDiets;
+    intolerances: string[] = allIntolerances;
+    cuisines: ICuisines[] = allCuisines;
+    dishTypes: IDishType[] = allDishTypes;
     ngDoCheck() {
         switch (this.filterService.panel) {
             case 'time':
-                console.log('time');
+                this.enableTime = true;
                 this.maxTime = this.filterService.time;
                 this.isPanelOpen = this.filterService.panel;
                 if (this.isDisable) this.isDisable = false;
                 this.filterService.panel = '';
                 break;
+            case 'ingridient':
+                this.selectedIngridients.push(this.filterService.ingridient);
+                this.isPanelOpen = this.filterService.panel;
+                if (this.isDisable) this.isDisable = false;
+                this.filterService.panel = '';
+                break;
             case 'kcal':
-                console.log('calories');
+                this.enableCalories = true;
                 this.maxCalories = this.filterService.calories;
                 this.minCalories = this.filterService.calories;
                 setTimeout(() => {
@@ -35,7 +47,6 @@ export class FilterComponentComponent implements DoCheck {
                 this.filterService.panel = '';
                 break;
             case 'diet':
-                console.log('diet');
                 if (!this.selectedDiets.includes(this.filterService.diet)) {
                     this.selectedDiets.push(this.filterService.diet);
                 }
@@ -45,7 +56,6 @@ export class FilterComponentComponent implements DoCheck {
                 this.filterService.panel = '';
                 break;
             case 'intolerance':
-                console.log(this.filterService.intolerance);
                 if (!this.selectedIntolerances.includes(this.filterService.intolerance)) {
                     this.selectedIntolerances.push(this.filterService.intolerance);
                 }
@@ -55,7 +65,6 @@ export class FilterComponentComponent implements DoCheck {
                 this.filterService.panel = '';
                 break;
             case 'dish':
-                console.log(this.filterService.dish);
                 if (!this.selectedDishTypes.includes(this.filterService.dish)) {
                     this.selectedDishTypes.push(this.filterService.dish);
                 }
@@ -92,6 +101,7 @@ export class FilterComponentComponent implements DoCheck {
     selectedIntolerances: string[] = [];
     selectedDishTypes: string[] = [];
     selectedCuisines: string[] = [];
+    selectedIngridients: string[] = [];
     public disable() {
         this.maxCalories = 800;
         this.minCalories = 0;
@@ -115,6 +125,10 @@ export class FilterComponentComponent implements DoCheck {
         this.selectedIntolerances = [];
         this.selectedDishTypes = [];
         this.selectedCuisines = [];
+        this.selectedIngridients = [];
+    }
+    public enableReset() {
+        this.isDisable = false;
     }
     public toggleAndDisableFalse(
         variable:
@@ -182,85 +196,4 @@ export class FilterComponentComponent implements DoCheck {
             console.log(this.selectedCuisines);
         }
     }
-
-    dishTypes: IDishType[] = [
-        'appetizer',
-        'antipasti',
-        'antipasto',
-        'bread',
-        'breakfast',
-        'beverage',
-        'dessert',
-        'drink',
-        'dinner',
-        'fingerfood',
-        'main course',
-        'marinade',
-        'lunch',
-        'main dish',
-        'morning meal',
-        'snack',
-        'soup',
-        'sauce',
-        'salad',
-        'side dish',
-        'starter',
-        "hor d'oeuvre",
-        'brunch'
-    ];
-    cuisines: ICuisines[] = [
-        'African',
-        'Asian',
-        'American',
-        'British',
-        'Cajun',
-        'Caribbean',
-        'Chinese',
-        'Eastern European',
-        'European',
-        'French',
-        'German',
-        'Greek',
-        'Indian',
-        'Irish',
-        'Italian',
-        'Japanese',
-        'Jewish',
-        'Korean',
-        'Latin American',
-        'Mediterranean',
-        'Mexican',
-        'Middle Eastern',
-        'Nordic',
-        'Southern',
-        'Spanish',
-        'Thai',
-        'Vietnamese',
-    ];
-    intolerances: string[] = [
-        'Dairy',
-        'Egg',
-        'Gluten',
-        'Grain',
-        'Peanut',
-        'Seafood',
-        'Sesame',
-        'Shellfish',
-        'Soy',
-        'Sulfite',
-        'Tree Nut',
-        'Wheat',
-    ];
-    diets: string[] = [
-        'gluten free',
-        'dairy free',
-        'lacto ovo vegetarian',
-        'vegan',
-        'paleolithic',
-        'primal',
-        'whole 30',
-        'pescatarian',
-        'ketogenic',
-        'fodmap friendly',
-    ];
 }

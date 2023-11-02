@@ -77,12 +77,12 @@
     </mat-expansion-panel>
 </mat-accordion>
 <mat-accordion>
-    <mat-expansion-panel hideToggle class="panel">
+    <mat-expansion-panel [expanded]="isPanelOpen === 'ingridient'" hideToggle class="panel">
         <mat-expansion-panel-header class="title">
             <mat-panel-title>Ingredients </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-divider class="mb10"></mat-divider>
-        <p>This is the primary content of the panel.</p>
+        <app-material-ships [selectedIngridients]="selectedIngridients" (ingridient)="enableReset()" ></app-material-ships>
     </mat-expansion-panel>
 </mat-accordion>
 

@@ -1,8 +1,9 @@
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, retry, throwError } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 
+import { IIngridietnsList } from '../models/RecipeModel';
 import { IRecipe } from '../models/RecipeModel';
 
 export interface IFetch {
@@ -28,7 +29,7 @@ export class ApiService {
         this.skipNumber += 21;
         return recipes;
     }
-    public getMockRecipes():Observable<IFetch> {
+    public getMockRecipes(): Observable<IFetch> {
         return this.http.get<IFetch>('../../assets/DADATA.json');
     }
     private catchErrorHandler(error: HttpErrorResponse) {
@@ -38,5 +39,8 @@ export class ApiService {
             console.error(`Backend returned error code - ${error.status}`);
         }
         return throwError(() => new Error('Something went wrong. Please try again later.'));
+    }
+    public getlistOfIngridients() {
+        return this.http.get<IIngridietnsList[]>('../../assets/listOfIngredients.json');
     }
 }

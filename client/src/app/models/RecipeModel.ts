@@ -106,3 +106,7 @@ interface IIngredients {
     image: string;
 }
 interface IEquipment extends IIngredients {}
+export interface IIngridietnsList {
+    ingridient: string;
+    id: number;
+}
