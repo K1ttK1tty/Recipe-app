@@ -2,7 +2,17 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { AsyncPipe, NgFor } from '@angular/common';
 import { NgIf } from '@angular/common';
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation,
+    inject,
+} from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
@@ -19,6 +29,7 @@ import { IIngridietnsList } from 'src/app/models/RecipeModel';
     templateUrl: './material-ships.component.html',
     styleUrls: ['./material-ships.component.scss'],
     standalone: true,
+    encapsulation: ViewEncapsulation.Emulated,
     imports: [
         FormsModule,
         MatFormFieldModule,

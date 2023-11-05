@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FilterService } from 'src/app/services/filter.service';
 
 import { IRecipe } from 'src/app/models/RecipeModel';
@@ -7,7 +7,6 @@ import { IRecipe } from 'src/app/models/RecipeModel';
     selector: 'app-recipe-card',
     templateUrl: './recipe-card.component.html',
     styleUrls: ['./recipe-card.component.scss'],
-    encapsulation: ViewEncapsulation.None,
 })
 export class RecipeCardComponent {
     constructor(private filterService: FilterService) {}
@@ -27,5 +26,13 @@ export class RecipeCardComponent {
     public getIngridient(ingridient: string) {
         this.filterService.ingridient = ingridient;
         this.filterService.panel = 'ingridient';
+    }
+
+    private number = 0;
+    public setNumber(x: number) {
+        this.number = x;
+    }
+    public getNumber() {
+        return this.number;
     }
 }

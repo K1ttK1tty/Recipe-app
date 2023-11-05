@@ -61,7 +61,6 @@ export type IDishType =
     | 'bread'
     | 'breakfast'
     | 'soup'
-    | 'beverage'
     | 'sauce'
     | 'marinade'
     | 'fingerfood'
@@ -109,4 +108,18 @@ interface IEquipment extends IIngredients {}
 export interface IIngridietnsList {
     ingridient: string;
     id: number;
+}
+export interface IQueryParams {
+    [key: string]: string | boolean;
+    cuisines: string | boolean;
+    diets: string | boolean;
+    dishTypes: string | boolean;
+    ingridients: string | boolean;
+    intolerances: string | boolean;
+    time: string | boolean;
+    stepByStep: boolean;
+    fats: string | boolean;
+    proteins: string | boolean;
+    calories: string | boolean;
+    carbs: string | boolean;
 }

@@ -1,8 +1,9 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 
+import { IQueryParams } from '../models/RecipeModel';
 import { IIngridietnsList } from '../models/RecipeModel';
 import { IRecipe } from '../models/RecipeModel';
 
@@ -20,13 +21,19 @@ export class ApiService {
     allRecipes!: IRecipe[] | [];
     constructor(private http: HttpClient) {}
 
-    public getRecipes(): Observable<HttpResponse<IFetch>> {
+    public getRecipes(params?: IQueryParams): Observable<HttpResponse<IFetch>> {
+        const currentParams = new HttpParams({ fromObject: params });
+        // console.log(currentParams);
         const recipes = this.http
             .get<IFetch>(`http://localhost:5001/api/getRecipes/${this.skipNumber}`, {
                 observe: 'response',
+                params: currentParams,
             })
             .pipe(catchError(this.catchErrorHandler));
-        this.skipNumber += 21;
+        // this.skipNumber += 21;
+        console.log(recipes.subscribe(resp=>{
+            console.log(resp.body)
+        }))
         return recipes;
     }
     public getMockRecipes(): Observable<IFetch> {

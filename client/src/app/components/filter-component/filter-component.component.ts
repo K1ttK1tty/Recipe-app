@@ -1,7 +1,9 @@
 import { Component, DoCheck } from '@angular/core';
+import { ApiService } from 'src/app/services/api.service';
 import { FilterService } from 'src/app/services/filter.service';
 
 import { ICuisines, IDishType } from 'src/app/models/RecipeModel';
+import { IQueryParams } from 'src/app/models/RecipeModel';
 
 import { allCuisines, allDiets, allDishTypes, allIntolerances } from './data';
 
@@ -11,7 +13,10 @@ import { allCuisines, allDiets, allDishTypes, allIntolerances } from './data';
     styleUrls: ['./filter-component.component.scss'],
 })
 export class FilterComponentComponent implements DoCheck {
-    constructor(private filterService: FilterService) {}
+    constructor(
+        private filterService: FilterService,
+        private apiService: ApiService,
+    ) {}
     diets: string[] = allDiets;
     intolerances: string[] = allIntolerances;
     cuisines: ICuisines[] = allCuisines;
@@ -21,15 +26,11 @@ export class FilterComponentComponent implements DoCheck {
             case 'time':
                 this.enableTime = true;
                 this.maxTime = this.filterService.time;
-                this.isPanelOpen = this.filterService.panel;
-                if (this.isDisable) this.isDisable = false;
-                this.filterService.panel = '';
+                this.shareLogic();
                 break;
             case 'ingridient':
                 this.selectedIngridients.push(this.filterService.ingridient);
-                this.isPanelOpen = this.filterService.panel;
-                if (this.isDisable) this.isDisable = false;
-                this.filterService.panel = '';
+                this.shareLogic();
                 break;
             case 'kcal':
                 this.enableCalories = true;
@@ -42,36 +43,27 @@ export class FilterComponentComponent implements DoCheck {
                             : 0;
                     this.maxCalories = Math.round(this.filterService.calories + 50);
                 }, 0);
-                this.isPanelOpen = this.filterService.panel;
-                if (this.isDisable) this.isDisable = false;
-                this.filterService.panel = '';
+                this.shareLogic();
                 break;
             case 'diet':
                 if (!this.selectedDiets.includes(this.filterService.diet)) {
                     this.selectedDiets.push(this.filterService.diet);
                 }
-                this.diet = this.filterService.diet;
-                this.isPanelOpen = this.filterService.panel;
-                if (this.isDisable) this.isDisable = false;
-                this.filterService.panel = '';
+                this.shareLogic();
                 break;
             case 'intolerance':
                 if (!this.selectedIntolerances.includes(this.filterService.intolerance)) {
                     this.selectedIntolerances.push(this.filterService.intolerance);
                 }
-                this.intolerance = this.filterService.intolerance;
-                this.isPanelOpen = this.filterService.panel;
-                if (this.isDisable) this.isDisable = false;
-                this.filterService.panel = '';
+                this.shareLogic();
                 break;
             case 'dish':
                 if (!this.selectedDishTypes.includes(this.filterService.dish)) {
                     this.selectedDishTypes.push(this.filterService.dish);
                 }
-                this.intolerance = this.filterService.intolerance;
-                this.isPanelOpen = this.filterService.panel;
-                if (this.isDisable) this.isDisable = false;
-                this.filterService.panel = '';
+                console.log(this.selectedDishTypes);
+                console.log(this.selectedIntolerances);
+                this.shareLogic();
                 break;
             default:
                 // console.log(this.includeStepByStepCooking)
@@ -88,8 +80,6 @@ export class FilterComponentComponent implements DoCheck {
     maxCarbohydrates = 500;
     maxTime = 0;
     isPanelOpen = '';
-    diet = '';
-    intolerance = '';
     isDisable = true;
     includeStepByStepCooking = false;
     enableFats = false;
@@ -102,6 +92,44 @@ export class FilterComponentComponent implements DoCheck {
     selectedDishTypes: string[] = [];
     selectedCuisines: string[] = [];
     selectedIngridients: string[] = [];
+    public send() {
+        // console.log(this.selectedCuisines);
+        // console.log(this.selectedDiets);
+        // console.log(this.selectedDishTypes);
+        // console.log(this.selectedIngridients);
+        // console.log(this.selectedIntolerances);
+        // console.log(this.maxTime);
+        // console.log(this.includeStepByStepCooking);
+        // console.log(this.selectedCuisines);
+        const result: IQueryParams = {
+            cuisines: this.selectedCuisines.length > 0 ? `&cuisine=${[...this.selectedCuisines].join(',')}` : false,
+            diets: this.selectedDiets.length > 0 ? `&diet=${[...this.selectedDiets].join('|')}` : false,
+            dishTypes: this.selectedDishTypes.length > 0 ? `&type=${[...this.selectedDishTypes].join(',')}` : false,
+            ingridients:
+                this.selectedIngridients.length > 0
+                    ? `&includeIngredients=${[...this.selectedIngridients].join(',')}`
+                    : false,
+            intolerances:
+                this.selectedIntolerances.length > 0
+                    ? `&intolerances=${[...this.selectedIntolerances].join(',')}`
+                    : false,
+            time: this.enableTime ? `&maxReadyTime=${this.maxTime}` : false,
+            stepByStep: this.includeStepByStepCooking ? this.includeStepByStepCooking : false,
+            fats: this.enableFats ? `&minFat=${this.minFat}&maxFat=${this.maxFat}` : false,
+            proteins: this.enableProteins ? `&minProtein=${this.minProtein}&maxProtein=${this.maxProtein}` : false,
+            calories: this.enableCalories ? `&minCalories=${this.minCalories}&maxCalories=${this.maxCalories}` : false,
+            carbs: this.enableCarbohydrates
+                ? `&minCarbs=${this.minCarbohydrates}&maxCarbs=${this.maxCarbohydrates}`
+                : false,
+        };
+        let t =''
+        for (let key in result) {
+            if (result[key]) t += result[key];
+        }
+        console.log(t)
+        this.apiService.getRecipes(result)
+
+    }
     public disable() {
         this.maxCalories = 800;
         this.minCalories = 0;
@@ -112,8 +140,6 @@ export class FilterComponentComponent implements DoCheck {
         this.minCarbohydrates = 0;
         this.maxCarbohydrates = 500;
         this.maxTime = 0;
-        this.diet = '';
-        this.intolerance = '';
         this.isDisable = true;
         this.includeStepByStepCooking = false;
         this.enableFats = false;
@@ -126,6 +152,11 @@ export class FilterComponentComponent implements DoCheck {
         this.selectedDishTypes = [];
         this.selectedCuisines = [];
         this.selectedIngridients = [];
+    }
+    private shareLogic() {
+        this.isPanelOpen = this.filterService.panel;
+        if (this.isDisable) this.isDisable = false;
+        this.filterService.panel = '';
     }
     public enableReset() {
         this.isDisable = false;

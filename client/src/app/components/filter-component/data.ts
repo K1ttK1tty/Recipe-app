@@ -5,7 +5,6 @@ export const allDishTypes: IDishType[] = [
     'antipasto',
     'bread',
     'breakfast',
-    'beverage',
     'dessert',
     'drink',
     'dinner',
