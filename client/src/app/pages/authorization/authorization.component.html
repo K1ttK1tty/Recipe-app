@@ -1,1 +1,83 @@
-<p>authorization works!</p>
+<div class="authWrapper">
+    <div class="content">
+        <div class="buttonsWrapper">
+            <button
+                [ngClass]="{
+                    tabButton: true,
+                    active: isRegistration
+                }"
+                (click)="isRegistration = true"
+            >
+                Sign up
+            </button>
+            <button
+                [ngClass]="{
+                    tabButton: true,
+                    active: !isRegistration
+                }"
+                (click)="isRegistration = false"
+            >
+                Log in
+            </button>
+        </div>
+        <ng-container *ngIf="isRegistration; else templateA">
+            <form [formGroup]="registrationForm" class="form">
+                <h2>Sign up</h2>
+                <mat-form-field class="input">
+                    <mat-label>Enter your name</mat-label>
+                    <input matInput formControlName="name" required />
+                    <mat-error *ngIf="registrationForm.get('name')?.invalid">{{ getRegNameError() }}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="input">
+                    <mat-label>Enter your email</mat-label>
+                    <input matInput formControlName="email" required />
+                    <mat-error *ngIf="registrationForm.get('email')?.invalid">{{ getRegEmailError() }}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="input">
+                    <mat-label>Enter your password</mat-label>
+                    <input matInput formControlName="password" required />
+                    <mat-error *ngIf="registrationForm.get('password')?.invalid">{{ getRegPasswordError() }}</mat-error>
+                </mat-form-field>
+                <span class="space"></span>
+                <button
+                    [disabled]="registrationForm.invalid"
+                    [ngClass]="{
+                        tabButton: true,
+                        actionButton: true
+                    }"
+                    (click)="registration()"
+                    type="submit"
+                >
+                    Sign up
+                </button>
+            </form>
+        </ng-container>
+        <ng-template #templateA
+            ><form [formGroup]="loginForm" class="form">
+                <h2>Log in</h2>
+                <mat-form-field class="input">
+                    <mat-label>Enter your email</mat-label>
+                    <input matInput formControlName="email" required />
+                    <mat-error *ngIf="loginForm.get('email')?.invalid">{{ getLoginEmailError() }}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="input">
+                    <mat-label>Enter your password</mat-label>
+                    <input matInput formControlName="password" required />
+                    <mat-error *ngIf="loginForm.get('password')?.invalid">{{ getLoginPasswordError() }}</mat-error>
+                </mat-form-field>
+                <span class="space"></span>
+                <button
+                    [disabled]="loginForm.invalid"
+                    [ngClass]="{
+                        tabButton: true,
+                        actionButton: true
+                    }"
+                    type="submit"
+                    (click)="logIn()"
+                >
+                    Log in
+                </button>
+            </form>
+        </ng-template>
+    </div>
+</div>

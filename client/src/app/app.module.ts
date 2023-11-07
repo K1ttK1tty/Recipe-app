@@ -45,7 +45,6 @@ import { RecipesComponent } from './pages/recipes/recipes.component';
         BotComponent,
         RecipesComponent,
         RecipePageComponent,
-        AuthorizationComponent,
         RecipeCardComponent,
         IconsComponent,
         FilterComponentComponent,
@@ -73,6 +72,7 @@ import { RecipesComponent } from './pages/recipes/recipes.component';
         MatAutocompleteModule,
         MatTooltipModule,
         MaterialShipsComponent,
+        AuthorizationComponent,
         RouterModule.forRoot([
             { path: '', component: RecipesComponent },
             { path: 'recipe/:recipeId', component: RecipePageComponent },
