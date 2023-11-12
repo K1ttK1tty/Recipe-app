@@ -13,6 +13,8 @@ export class RecipesComponent implements OnInit {
     newRecipes: IRecipe[] | [] = [];
     numberOfSkip = this.service.skipNumber;
     mockRecipes: IRecipe[] | [] = [];
+    pageWidth: number = window.innerWidth;
+    numberOfCols: string = this.colsNumber(window.innerWidth);
     ngOnInit() {
         // this.getRecipes()
         this.getMockResipes();
@@ -33,8 +35,7 @@ export class RecipesComponent implements OnInit {
             }
         });
     }
-    pageWidth: number = window.innerWidth;
-    numberOfCols: string = this.colsNumber(window.innerWidth);
+
     @HostListener('window:resize', ['$event'])
     onResize() {
         this.numberOfCols = this.colsNumber(window.innerWidth);

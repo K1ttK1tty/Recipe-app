@@ -43,7 +43,8 @@
                     [disabled]="registrationForm.invalid"
                     [ngClass]="{
                         tabButton: true,
-                        actionButton: true
+                        actionButton: true,
+                        disabledButton: registrationForm.invalid
                     }"
                     (click)="registration()"
                     type="submit"
@@ -54,7 +55,7 @@
         </ng-container>
         <ng-template #templateA
             ><form [formGroup]="loginForm" class="form">
-                <h2>Log in</h2>
+                <h2>Log in </h2>
                 <mat-form-field class="input">
                     <mat-label>Enter your email</mat-label>
                     <input matInput formControlName="email" required />
@@ -70,7 +71,8 @@
                     [disabled]="loginForm.invalid"
                     [ngClass]="{
                         tabButton: true,
-                        actionButton: true
+                        actionButton: true,
+                        disabledButton: loginForm.invalid
                     }"
                     type="submit"
                     (click)="logIn()"

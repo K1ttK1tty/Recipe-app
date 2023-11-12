@@ -93,14 +93,6 @@ export class FilterComponentComponent implements DoCheck {
     selectedCuisines: string[] = [];
     selectedIngridients: string[] = [];
     public send() {
-        // console.log(this.selectedCuisines);
-        // console.log(this.selectedDiets);
-        // console.log(this.selectedDishTypes);
-        // console.log(this.selectedIngridients);
-        // console.log(this.selectedIntolerances);
-        // console.log(this.maxTime);
-        // console.log(this.includeStepByStepCooking);
-        // console.log(this.selectedCuisines);
         const result: IQueryParams = {
             cuisines: this.selectedCuisines.length > 0 ? `&cuisine=${[...this.selectedCuisines].join(',')}` : false,
             diets: this.selectedDiets.length > 0 ? `&diet=${[...this.selectedDiets].join('|')}` : false,
@@ -126,9 +118,7 @@ export class FilterComponentComponent implements DoCheck {
         for (let key in result) {
             if (result[key]) t += result[key];
         }
-        console.log(t)
         this.apiService.getRecipes(result)
-
     }
     public disable() {
         this.maxCalories = 800;

@@ -3,7 +3,6 @@ class apiController {
         try {
             const numberOfSkip = req.params.numberOfSkip;
             const skipParam = numberOfSkip > 0 ? `&offset=${numberOfSkip}` : '';
-            // let recipeParams = '&offset=0';
             let recipeParams = skipParam;
             for (let key in req.query) {
                 if (req.query[key] !== 'false') {

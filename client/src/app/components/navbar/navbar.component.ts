@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
     selector: 'app-navbar',
@@ -6,10 +7,13 @@ import { Component, HostListener } from '@angular/core';
     styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
+    constructor(private AuthService: AuthService) {}
     windowScreen = window.innerWidth;
-    currentPage = 'Recipes';
+    subscription = this.AuthService.getAuthState.subscribe(resp => {
+        this.isAuthorized = resp;
+    });
     isAuthorized = false;
-
+    currentPage = 'Recipes';
     public setPath(page: string) {
         this.currentPage = page;
     }

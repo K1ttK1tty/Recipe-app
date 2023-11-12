@@ -15,6 +15,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
@@ -35,7 +36,6 @@ import { MyFavoritesComponent } from './pages/my-favorites/my-favorites.componen
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RecipePageComponent } from './pages/recipe-page/recipe-page.component';
 import { RecipesComponent } from './pages/recipes/recipes.component';
-
 @NgModule({
     declarations: [
         AppComponent,
@@ -73,6 +73,7 @@ import { RecipesComponent } from './pages/recipes/recipes.component';
         MatTooltipModule,
         MaterialShipsComponent,
         AuthorizationComponent,
+        MatSnackBarModule,
         RouterModule.forRoot([
             { path: '', component: RecipesComponent },
             { path: 'recipe/:recipeId', component: RecipePageComponent },

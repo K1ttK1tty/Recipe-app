@@ -5,6 +5,7 @@ import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
     selector: 'app-authorization',
@@ -14,17 +15,27 @@ import { MatTabsModule } from '@angular/material/tabs';
     imports: [MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, NgIf, MatTabsModule, NgClass],
 })
 export class AuthorizationComponent {
-    constructor(private formBuilder: FormBuilder) {}
+    constructor(
+        private formBuilder: FormBuilder,
+        private authService: AuthService,
+    ) {}
     isRegistration = true;
     registrationForm = this.formBuilder.group({
-        email: new FormControl('', [Validators.required, Validators.email]),
-        name: new FormControl('', [Validators.required]),
-        password: new FormControl('', [Validators.required, Validators.minLength(4)]),
+        email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
+        name: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+        password: new FormControl('', {
+            nonNullable: true,
+            validators: [Validators.required, Validators.minLength(4)],
+        }),
     });
     loginForm = this.formBuilder.group({
-        email: new FormControl('', [Validators.required, Validators.email]),
-        password: new FormControl('', [Validators.required, Validators.minLength(4)]),
+        email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }),
+        password: new FormControl('', {
+            nonNullable: true,
+            validators: [Validators.required, Validators.minLength(4)],
+        }),
     });
+
     public getRegEmailError() {
         if (this.registrationForm.controls.email.hasError('required')) return 'This field is required';
         return this.registrationForm.controls.email.hasError('email') ? 'Not a valid field' : '';
@@ -47,12 +58,13 @@ export class AuthorizationComponent {
         return this.loginForm.controls.password.hasError('minlength') ? 'Value must have more than 4 symbols' : '';
     }
     public logIn() {
-        console.log(this.loginForm.controls.email.value)
-        console.log(this.loginForm.controls.password.value)
+        this.authService.login(this.loginForm.controls.email.value, this.loginForm.controls.password.value);
     }
     public registration() {
-        console.log(this.registrationForm.controls.email.value)
-        console.log(this.registrationForm.controls.name.value)
-        console.log(this.registrationForm.controls.password.value)
+        this.authService.registration(
+            this.registrationForm.controls.name.value,
+            this.registrationForm.controls.email.value,
+            this.registrationForm.controls.password.value,
+        );
     }
 }
