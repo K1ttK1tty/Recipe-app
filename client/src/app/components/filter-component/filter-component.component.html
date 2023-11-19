@@ -49,7 +49,7 @@
                 [color]="'primary'"
                 [disabled]="false"
                 [checked]="getDietState(oneDiet)"
-                (click)="toggleSelectedDiets(oneDiet)"
+                (click)="usersDietsAndIntolerances.diets.includes(oneDiet) ? null : toggleSelectedDiets(oneDiet)"
             >
                 {{ oneDiet }}
             </mat-slide-toggle>
@@ -82,7 +82,10 @@
             <mat-panel-title>Ingredients </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-divider class="mb10"></mat-divider>
-        <app-material-ships [selectedIngridients]="selectedIngridients" (ingridient)="enableReset()" ></app-material-ships>
+        <app-material-ships
+            [selectedIngridients]="selectedIngridients"
+            (ingridient)="enableReset()"
+        ></app-material-ships>
     </mat-expansion-panel>
 </mat-accordion>
 

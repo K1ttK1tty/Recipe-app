@@ -1,1 +1,88 @@
-<p>profile works!</p>
+<div class="userInfo">
+    <h2>USER PROFILE</h2>
+    <div class="flexContainer title m">
+        <h3>Main information</h3>
+        <button
+            (click)="isEditMode = !isEditMode"
+            mat-icon-button
+            matTooltip="Edit"
+            color="primary"
+            aria-label="Edit main information"
+        >
+            <mat-icon>edit</mat-icon>
+        </button>
+    </div>
+    <div class="">
+        <div class="img"></div>
+        <div class="info">
+            <div class="name text">
+                <div class="label">Your name:</div>
+                <input [(ngModel)]="userName" [disabled]="!isEditMode" type="text" />
+            </div>
+            <div class="accountRegistraion text">Registration date: {{ user?.registrationDate }}</div>
+            <div class="description text">
+                <div class="label">Profile info:</div>
+                <textarea
+                    [(ngModel)]="profileInfo"
+                    [disabled]="!isEditMode"
+                    type="text"
+                    [value]="user?.data?.profileInfo"
+                ></textarea>
+            </div>
+        </div>
+    </div>
+    <hr />
+
+    <div class="flexContainer title">
+        <h3>Filter params</h3>
+        <button
+            (click)="isEditMode = !isEditMode"
+            mat-icon-button
+            matTooltip="Edit"
+            color="primary"
+            aria-label="Edit filter marams"
+        >
+            <mat-icon>edit</mat-icon>
+        </button>
+    </div>
+    <h4>These options will always apply to the search filter.</h4>
+    <div class="filtersWrapper">
+        <div>
+            <h4>Diets</h4>
+            <section *ngFor="let oneDiet of diets" class="section">
+                <mat-slide-toggle
+                    class="example-margin"
+                    [color]="'primary'"
+                    [disabled]="!isEditMode"
+                    [checked]="getDietState(oneDiet)"
+                    (click)="!isEditMode ? null : toggleSelectedDiets(oneDiet)"
+                >
+                    {{ oneDiet }}
+                </mat-slide-toggle>
+            </section>
+        </div>
+        <div>
+            <h4>Intolerances</h4>
+            <section *ngFor="let intolerance of intolerances" class="section">
+                <mat-slide-toggle
+                    class="example-margin"
+                    [color]="'primary'"
+                    [disabled]="!isEditMode"
+                    [checked]="getIntoleranceState(intolerance)"
+                    (click)="!isEditMode ? null : toggleSelectedIntolerances(intolerance)"
+                >
+                    {{ intolerance }}
+                </mat-slide-toggle>
+            </section>
+        </div>
+    </div>
+    <button
+        class="applyButton"
+        [disabled]="!isEditMode"
+        (click)="changeProfileInfo()"
+        color="primary"
+        mat-raised-button
+    >
+        Apply
+    </button>
+</div>

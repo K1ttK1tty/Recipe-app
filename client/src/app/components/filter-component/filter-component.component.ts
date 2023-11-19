@@ -1,9 +1,11 @@
 import { Component, DoCheck } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { FilterService } from 'src/app/services/filter.service';
 
 import { ICuisines, IDishType } from 'src/app/models/RecipeModel';
 import { IQueryParams } from 'src/app/models/RecipeModel';
+import { IusersDietAndIntoleraces } from 'src/app/models/UserModel';
 
 import { allCuisines, allDiets, allDishTypes, allIntolerances } from './data';
 
@@ -16,12 +18,33 @@ export class FilterComponentComponent implements DoCheck {
     constructor(
         private filterService: FilterService,
         private apiService: ApiService,
+        private authService: AuthService,
     ) {}
+
     diets: string[] = allDiets;
     intolerances: string[] = allIntolerances;
     cuisines: ICuisines[] = allCuisines;
     dishTypes: IDishType[] = allDishTypes;
+    selectedDiets: string[] = [];
+    selectedIntolerances: string[] = [];
+    selectedDishTypes: string[] = [];
+    selectedCuisines: string[] = [];
+    selectedIngridients: string[] = [];
+    usersDietsAndIntolerances!: IusersDietAndIntoleraces;
+    yy: any;
+    $subscription = this.authService.getUser().subscribe(observer => {
+        this.selectedDiets = observer.data?.filterData.diets ? observer.data?.filterData.diets : [];
+        this.selectedIntolerances = observer.data?.filterData.intolerances
+            ? observer.data?.filterData.intolerances
+            : [];
+        this.usersDietsAndIntolerances = observer.data?.filterData;
+        this.yy = observer;
+        // console.log(this.selectedDiets);
+        // console.log(observer.data?.filterData.diets);
+    });
+
     ngDoCheck() {
+        console.log(this.yy)
         switch (this.filterService.panel) {
             case 'time':
                 this.enableTime = true;
@@ -87,11 +110,7 @@ export class FilterComponentComponent implements DoCheck {
     enableProteins = false;
     enableCarbohydrates = false;
     enableTime = false;
-    selectedDiets: string[] = [];
-    selectedIntolerances: string[] = [];
-    selectedDishTypes: string[] = [];
-    selectedCuisines: string[] = [];
-    selectedIngridients: string[] = [];
+
     public send() {
         const result: IQueryParams = {
             cuisines: this.selectedCuisines.length > 0 ? `&cuisine=${[...this.selectedCuisines].join(',')}` : false,
@@ -114,11 +133,11 @@ export class FilterComponentComponent implements DoCheck {
                 ? `&minCarbs=${this.minCarbohydrates}&maxCarbs=${this.maxCarbohydrates}`
                 : false,
         };
-        let t =''
+        let t = '';
         for (let key in result) {
             if (result[key]) t += result[key];
         }
-        this.apiService.getRecipes(result)
+        this.apiService.getRecipes(result);
     }
     public disable() {
         this.maxCalories = 800;
@@ -177,22 +196,32 @@ export class FilterComponentComponent implements DoCheck {
         }
     }
     public getDietState(diet: string) {
+        // if (this.usersDietsAndIntolerances?.diets.includes(diet)) return true
         return this.selectedDiets.includes(diet);
     }
     public toggleSelectedDiets(diet: string) {
+        if (this.usersDietsAndIntolerances?.diets.includes(diet)) {
+            // console.log('eeeee')
+            // console.log(this.usersDietsAndIntolerances);
+            return;
+        }
         if (this.isDisable) this.isDisable = false;
         if (!this.selectedDiets.includes(diet)) {
-            this.selectedDiets.push(diet);
-            console.log(this.selectedDiets);
+            // this.selectedDiets.push(diet);
+            // console.log(this.selectedDiets);
         } else {
             this.selectedDiets = this.selectedDiets.filter(currentDiet => currentDiet !== diet);
-            console.log(this.selectedDiets);
+            // console.log(this.selectedDiets);
         }
+        console.log(this.usersDietsAndIntolerances);
     }
     public getIntoleranceState(intolerance: string) {
         return this.selectedIntolerances.includes(intolerance);
     }
     public toggleSelectedIntolerances(intolerance: string) {
+        if (this.usersDietsAndIntolerances?.intolerances.includes(intolerance)) {
+            return;
+        }
         if (this.isDisable) this.isDisable = false;
         if (!this.selectedIntolerances.includes(intolerance)) {
             this.selectedIntolerances.push(intolerance);
