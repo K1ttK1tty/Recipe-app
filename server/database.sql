@@ -20,7 +20,6 @@ create table userInfo(
     id int auto_increment primary key,
     name VARCHAR(255) NOT NULL,
     registrationDate VARCHAR(255) NOT NULL,
-    profileInfo VARCHAR(255) DEFAULT '',
     avatarName VARCHAR(255) DEFAULT '',
     user_id int NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user (id)

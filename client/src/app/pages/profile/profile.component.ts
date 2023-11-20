@@ -76,4 +76,7 @@ export class ProfileComponent {
     public uploadData(email: string, name: string, userInfo: IUserInfo) {
         this.authService.uploadData(email, name, userInfo);
     }
+    public logOut(){
+        this.authService.logOut()
+    }
 }

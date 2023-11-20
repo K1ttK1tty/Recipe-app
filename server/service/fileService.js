@@ -28,8 +28,73 @@ class fileService {
                 if (err) throw new Error('Error creating file myRecipes');
             }
         );
+        const obj = { profileInfo: '', diets: [], intolerances: [] };
+        fs.writeFile(
+            path.resolve(process.env.USER_DATA_PATH, `${email}_content`, `userInfo_${email}.txt`),
+            JSON.stringify(obj),
+            err => {
+                if (err) throw new Error('Error creating file userInfo');
+            }
+        );
     }
-
+    async retrieveData(email) {
+        if (!fs.existsSync(path.resolve(process.env.USER_DATA_PATH, `${email}_content`, `favorits_${email}.txt`))) {
+            throw fileError.getDataError();
+        }
+        if (!fs.existsSync(path.resolve(process.env.USER_DATA_PATH, `${email}_content`, `myRecipes_${email}.txt`))) {
+            throw fileError.getDataError();
+        }
+        if (!fs.existsSync(path.resolve(process.env.USER_DATA_PATH, `${email}_content`, `userInfo_${email}.txt`))) {
+            throw fileError.getDataError();
+        }
+        const favorits = fs.readFileSync(
+            path.resolve(process.env.USER_DATA_PATH, `${email}_content`, `favorits_${email}.txt`),
+            { encoding: 'utf-8' },
+            err => {
+                if (err) throw fileError.getDataError();
+            }
+        );
+        const recipes = fs.readFileSync(
+            path.resolve(process.env.USER_DATA_PATH, `${email}_content`, `myRecipes_${email}.txt`),
+            { encoding: 'utf-8' },
+            err => {
+                if (err) throw fileError.getDataError();
+            }
+        );
+        const userData = fs.readFileSync(
+            path.resolve(process.env.USER_DATA_PATH, `${email}_content`, `userInfo_${email}.txt`),
+            { encoding: 'utf-8' },
+            err => {
+                if (err) throw fileError.getDataError();
+            }
+        );
+        const parsedUserData = JSON.parse(userData);
+        const newObj = {
+            favorits: JSON.parse(favorits),
+            recipes: JSON.parse(recipes),
+            profileInfo: parsedUserData.profileInfo,
+            filterData: {
+                intolerances: parsedUserData.intolerances,
+                diets: parsedUserData.diets,
+            },
+        };
+        return newObj;
+    }
+    async editUserData(email, name, userInfo) {
+        const [user] = await pool.query(`select * from user where email=?`, [email]);
+        if (name) {
+            await pool.query(`update userInfo set name=? where id=?`, [name, user[0].id]);
+        }
+        if (userInfo) {
+            fs.writeFile(
+                path.resolve(process.env.USER_DATA_PATH, `${email}_content`, `userInfo_${email}.txt`),
+                JSON.stringify(userInfo),
+                err => {
+                    if (err) throw new Error('Error updating file favorits');
+                }
+            );
+        }
+    }
     async uploadAvatar(email, avatar) {
         const extension = avatar.name.split('.').pop();
         const filePath = path.resolve(process.env.USER_DATA_PATH, `${email}_content`, `avatar.${extension}`);

@@ -1,12 +1,19 @@
 const fileService = require('../service/fileService.js');
 class fileController {
-
-
     async uploadAvatar(req, res, next) {
         try {
             const email = req.query.email;
             const avatar = req.files.avatar;
             await fileService.uploadAvatar(email, avatar);
+        } catch (err) {
+            next(err);
+        }
+    }
+    async uploadData(req, res, next) {
+        try {
+            const { email, name, userInfo } = req.body;
+            await fileService.editUserData(email, name, userInfo);
+            return res.json({ message: 'Your information has been updated' });
         } catch (err) {
             next(err);
         }

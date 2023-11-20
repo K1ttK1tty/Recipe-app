@@ -41,7 +41,7 @@ export class AuthService {
                     return this.catchErrorHandler(error);
                 }),
             )
-            .subscribe(resp => {
+            .subscribe(() => {
                 this.SnackbarService.openSnackbar('Registration completed successfully');
             });
     }
@@ -56,7 +56,7 @@ export class AuthService {
             .subscribe(resp => {
                 this.SnackbarService.openSnackbar('You are logged into your account');
                 this.authorize();
-                console.log(resp);
+                // console.log(resp);
                 localStorage.setItem('token', resp.accessToken);
 
                 this.user.next(resp.user);
@@ -64,9 +64,21 @@ export class AuthService {
             });
     }
     public logOut() {
-        // this.user.next({});
         this.unAuthorize();
-        this.SnackbarService.openSnackbar('You are logged out');
+        this.user.next({});
+        this.router.navigate(['/']);
+        this.http.post('http://localhost:5001/api/logout', {}).subscribe(() => {
+            this.SnackbarService.openSnackbar('You are logged out');
+        });
+    }
+    public refresh() {
+        return this.http.get<ILogin>('http://localhost:5001/api/refresh').subscribe(resp => {
+            console.log(resp);
+            this.SnackbarService.openSnackbar('You are logged into your account');
+            this.authorize();
+            this.user.next(resp.user);
+            localStorage.setItem('token', resp.accessToken);
+        });
     }
     private catchErrorHandler(error: HttpErrorResponse) {
         let message: string;
@@ -104,5 +116,4 @@ export class AuthService {
                 console.log(resp);
             });
     }
-    
 }

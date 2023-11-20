@@ -18,7 +18,7 @@ router.post(
 );
 router.post('/login', userController.login);
 router.post('/logout', userController.logout);
-router.get('/refresh', userController.refresh); // not checked
+router.get('/refresh', userController.refresh); 
 // activate email
 router.post('/sendActivationMail', userController.activationMail);
 router.get('/activate/:link', userController.activate);
@@ -31,6 +31,7 @@ router.post('/refreshPassword', userController.setNewPassword); // not checked
 // work with API
 router.get('/getRecipes/:numberOfSkip', apiController.fetchRecipes);
 // router.get('/getRecipes', authMiddleware, apiController.fetchRecipes);
+router.post('/uploadData', authMiddleware, fileController.uploadData);
 // avatar
 router.post('/uploadAvatar', authMiddleware, fileController.uploadAvatar);
 router.post('/getAvatar', authMiddleware, fileController.getAvatar);

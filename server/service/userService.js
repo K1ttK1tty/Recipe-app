@@ -6,6 +6,7 @@ const pool = require('../db.js').pool;
 // services
 const mailService = require('../service/mailService.js');
 const tokenService = require('../service/tokenService.js');
+const fileService = require('../service/fileService.js');
 // exeptions
 const ApiError = require('../exeptions/apiError.js');
 // functions
@@ -25,40 +26,36 @@ class userService {
         const activationLink = await sendActivationMail(email);
         const [newPerson] = await pool.query(`select id,email from user where email=?;`, [email]);
 
-        await pool.query(
-            `insert into userInfo (name,registrationDate,profileInfo,avatarName,user_id) values(?,?,?,?,?)`,
-            [userName, getTodayDate(), '', '', newPerson[0].id]
-        );
+        await pool.query(`insert into userInfo (name,registrationDate,avatarName,user_id) values(?,?,?,?)`, [
+            userName,
+            getTodayDate(),
+            '',
+            newPerson[0].id,
+        ]);
 
         await pool.query(`insert into activation (activationLink,user_id) values(?,?);`, [
             activationLink,
             newPerson[0].id,
         ]);
-        const [userInfo] = await pool.query(`select registrationDate,name,profileInfo from userInfo where user_id=?`, [
+        const [userInfo] = await pool.query(`select registrationDate,name from userInfo where user_id=?`, [
             newPerson[0].id,
         ]);
 
         const tokens = tokenService.generateTokens(newPerson[0]);
-        await tokenService.saveToken(newPerson[0].id, tokens.refreshToken); 
-        // const dto = {
-        //     registrationDate: userInfo[0].registrationDate,
-        //     name: userInfo[0].name,
-        //     profileInfo: userInfo[0].profileInfo,
-        // };
+        await tokenService.saveToken(newPerson[0].id, tokens.refreshToken);
 
         return {
             ...tokens,
             user: {
                 registrationDate: userInfo[0].registrationDate,
                 name: userInfo[0].name,
-                profileInfo: userInfo[0].profileInfo,
             },
         };
     }
 
     async sendActivate(id, email) {
         const activationLink = await sendActivationMail(email);
-        const [user] = await pool.query(`select * from user where email=?`,[email])
+        const [user] = await pool.query(`select * from user where email=?`, [email]);
         await pool.query(`update activation set activationLink=? where user_id=?;`, [activationLink, user[0].id]);
     }
 
@@ -72,6 +69,7 @@ class userService {
 
     async login(email, password) {
         const [user] = await pool.query(`select * from user where email=?;`, [email]);
+
         if (!user[0]) {
             throw ApiError.BadRequest('There is no user with such email');
         }
@@ -79,7 +77,12 @@ class userService {
         if (!isPasswordsEqual) {
             throw ApiError.BadRequest('Invalid password');
         }
-        return generateAndSaveToken(user);
+        const data = await fileService.retrieveData(email);
+        const tokensAndInfo = await generateAndSaveToken(user);
+        return {
+            ...tokensAndInfo,
+            user: { ...tokensAndInfo.user, data: data },
+        };
     }
 
     async logout(refreshToken) {
@@ -96,7 +99,14 @@ class userService {
             throw ApiError.UnauthorizedError();
         }
         const [user] = await pool.query(`select * from user where id=?;`, [userData.id]);
-        return generateAndSaveToken(user);
+        
+        const data = await fileService.retrieveData(user[0].email);
+        const tokensAndInfo = await generateAndSaveToken(user);
+        return {
+            ...tokensAndInfo,
+            user: { ...tokensAndInfo.user, data: data },
+        };
+        // return generateAndSaveToken(user);
     }
 
     async resetPassword(email) {

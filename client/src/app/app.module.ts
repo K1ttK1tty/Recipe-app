@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, importProvidersFrom } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -36,6 +36,8 @@ import { MyFavoritesComponent } from './pages/my-favorites/my-favorites.componen
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RecipePageComponent } from './pages/recipe-page/recipe-page.component';
 import { RecipesComponent } from './pages/recipes/recipes.component';
+import { AllInterceptors } from './services/apiInterceptors/AllInterceptors';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -83,7 +85,7 @@ import { RecipesComponent } from './pages/recipes/recipes.component';
             { path: 'authorization', component: AuthorizationComponent },
         ]),
     ],
-    providers: [],
+    providers: [importProvidersFrom(HttpClientModule), AllInterceptors],
     bootstrap: [AppComponent],
 })
 export class AppModule {}

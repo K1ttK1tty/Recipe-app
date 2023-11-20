@@ -44,7 +44,7 @@ export class FilterComponentComponent implements DoCheck {
     });
 
     ngDoCheck() {
-        console.log(this.yy)
+        // console.log(this.yy)
         switch (this.filterService.panel) {
             case 'time':
                 this.enableTime = true;

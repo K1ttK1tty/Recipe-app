@@ -1,5 +1,10 @@
 <div class="userInfo">
-    <h2>USER PROFILE</h2>
+    <div class="flexContainer title">
+        <h2>USER PROFILE</h2>
+        <button (click)="logOut()" mat-icon-button matTooltip="Log out" color="warn" aria-label="Log out">
+            <mat-icon>logout</mat-icon>
+        </button>
+    </div>
     <div class="flexContainer title m">
         <h3>Main information</h3>
         <button
