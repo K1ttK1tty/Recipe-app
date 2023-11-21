@@ -30,21 +30,16 @@ export class FilterComponentComponent implements DoCheck {
     selectedDishTypes: string[] = [];
     selectedCuisines: string[] = [];
     selectedIngridients: string[] = [];
-    usersDietsAndIntolerances!: IusersDietAndIntoleraces;
-    yy: any;
+    usersDietsAndIntolerances?: IusersDietAndIntoleraces;
     $subscription = this.authService.getUser().subscribe(observer => {
-        this.selectedDiets = observer.data?.filterData.diets ? observer.data?.filterData.diets : [];
+        this.selectedDiets = observer.data?.filterData.diets ? [...observer.data?.filterData.diets] : [];
         this.selectedIntolerances = observer.data?.filterData.intolerances
-            ? observer.data?.filterData.intolerances
+            ? [...observer.data?.filterData.intolerances]
             : [];
         this.usersDietsAndIntolerances = observer.data?.filterData;
-        this.yy = observer;
-        // console.log(this.selectedDiets);
-        // console.log(observer.data?.filterData.diets);
     });
 
     ngDoCheck() {
-        // console.log(this.yy)
         switch (this.filterService.panel) {
             case 'time':
                 this.enableTime = true;
@@ -137,7 +132,9 @@ export class FilterComponentComponent implements DoCheck {
         for (let key in result) {
             if (result[key]) t += result[key];
         }
-        this.apiService.getRecipes(result);
+        console.log(result);
+
+        // this.apiService.getRecipes(result);
     }
     public disable() {
         this.maxCalories = 800;
@@ -156,8 +153,10 @@ export class FilterComponentComponent implements DoCheck {
         this.enableProteins = false;
         this.enableCarbohydrates = false;
         this.enableTime = false;
-        this.selectedDiets = [];
-        this.selectedIntolerances = [];
+        this.selectedDiets = this.usersDietsAndIntolerances?.diets ? [...this.usersDietsAndIntolerances?.diets] : [];
+        this.selectedIntolerances = this.usersDietsAndIntolerances?.intolerances
+            ? [...this.usersDietsAndIntolerances.intolerances]
+            : [];
         this.selectedDishTypes = [];
         this.selectedCuisines = [];
         this.selectedIngridients = [];
@@ -196,24 +195,17 @@ export class FilterComponentComponent implements DoCheck {
         }
     }
     public getDietState(diet: string) {
-        // if (this.usersDietsAndIntolerances?.diets.includes(diet)) return true
         return this.selectedDiets.includes(diet);
     }
     public toggleSelectedDiets(diet: string) {
-        if (this.usersDietsAndIntolerances?.diets.includes(diet)) {
-            // console.log('eeeee')
-            // console.log(this.usersDietsAndIntolerances);
-            return;
-        }
+        if (this.usersDietsAndIntolerances?.diets.includes(diet)) return;
+
         if (this.isDisable) this.isDisable = false;
         if (!this.selectedDiets.includes(diet)) {
-            // this.selectedDiets.push(diet);
-            // console.log(this.selectedDiets);
+            this.selectedDiets.push(diet);
         } else {
             this.selectedDiets = this.selectedDiets.filter(currentDiet => currentDiet !== diet);
-            // console.log(this.selectedDiets);
         }
-        console.log(this.usersDietsAndIntolerances);
     }
     public getIntoleranceState(intolerance: string) {
         return this.selectedIntolerances.includes(intolerance);
@@ -230,7 +222,6 @@ export class FilterComponentComponent implements DoCheck {
             this.selectedIntolerances = this.selectedIntolerances.filter(
                 currentIntolerance => currentIntolerance !== intolerance,
             );
-            console.log(this.selectedIntolerances);
         }
     }
     public getCuisineState(cuisine: string) {

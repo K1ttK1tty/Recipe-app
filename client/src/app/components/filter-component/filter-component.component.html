@@ -47,9 +47,9 @@
             <mat-slide-toggle
                 class="example-margin"
                 [color]="'primary'"
-                [disabled]="false"
-                [checked]="getDietState(oneDiet)"
-                (click)="usersDietsAndIntolerances.diets.includes(oneDiet) ? null : toggleSelectedDiets(oneDiet)"
+                [disabled]="usersDietsAndIntolerances?.diets?.includes(oneDiet)"
+                [checked]="usersDietsAndIntolerances?.diets?.includes(oneDiet) ? true : getDietState(oneDiet)"
+                (click)="usersDietsAndIntolerances?.diets?.includes(oneDiet) ? null : toggleSelectedDiets(oneDiet)"
             >
                 {{ oneDiet }}
             </mat-slide-toggle>
@@ -67,9 +67,17 @@
             <mat-slide-toggle
                 class="example-margin"
                 [color]="'primary'"
-                [disabled]="false"
-                [checked]="getIntoleranceState(intolerance)"
-                (click)="toggleSelectedIntolerances(intolerance)"
+                [disabled]="usersDietsAndIntolerances?.intolerances?.includes(intolerance)"
+                [checked]="
+                    usersDietsAndIntolerances?.intolerances?.includes(intolerance)
+                        ? true
+                        : getIntoleranceState(intolerance)
+                "
+                (click)="
+                    usersDietsAndIntolerances?.intolerances?.includes(intolerance)
+                        ? null
+                        : toggleSelectedIntolerances(intolerance)
+                "
             >
                 {{ intolerance }}
             </mat-slide-toggle>

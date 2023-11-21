@@ -9,20 +9,10 @@
     </mat-card-header>
     <div class="imageWrapper">
         <img mat-card-image [src]="recipe.image" alt="Photo of a dish" />
-        <button
-            mat-raised-button
-            color="accent"
-            class="timeBlock overImg"
-            (click)="getTime()"
-        >
+        <button mat-raised-button color="accent" class="timeBlock overImg" (click)="getTime()">
             {{ recipe.readyInMinutes + ' min' }}
         </button>
-        <button
-            mat-raised-button
-            color="accent"
-            class="calBlock overImg"
-            (click)="getCalories()"
-        >
+        <button mat-raised-button color="accent" class="calBlock overImg" (click)="getCalories()">
             {{ recipe.nutrition.nutrients[0].amount + ' kcal' }}
         </button>
     </div>
@@ -46,19 +36,26 @@
             <button mat-button [matMenuTriggerFor]="ingridients">Ingridients</button>
             <mat-menu #ingridients="matMenu">
                 <div *ngFor="let ingridient of recipe.nutrition.ingredients">
-                    <button (click)="getIngridient(ingridient.name)" class="ingridientOption" mat-menu-item>{{ '&#9679; ' + ingridient.name }}</button>
+                    <button (click)="getIngridient(ingridient.name)" class="ingridientOption" mat-menu-item>
+                        {{ '&#9679; ' + ingridient.name }}
+                    </button>
                 </div>
             </mat-menu>
             <span class="space"></span>
             <button mat-button [matMenuTriggerFor]="dishTypea">Dish types</button>
             <mat-menu #dishTypea="matMenu">
                 <div *ngFor="let type of recipe.dishTypes">
-                    <button (click)="getDishType(type)" class="ingridientOption" mat-menu-item>{{ '&#9679; ' + type }}</button>
+                    <button (click)="getDishType(type)" class="ingridientOption" mat-menu-item>
+                        {{ '&#9679; ' + type }}
+                    </button>
                 </div>
             </mat-menu>
         </div>
     </div>
     <mat-card-actions>
-        <button class="center" mat-raised-button color="primary">View recipe</button>
+        <!-- <button [routerLink]="['/recipe/' + recipe.id, recipe]" class="center" mat-raised-button color="primary"> -->
+        <button (click)="navigate()" class="center" mat-raised-button color="primary">
+            View recipe
+        </button>
     </mat-card-actions>
 </mat-card>

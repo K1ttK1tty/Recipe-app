@@ -33,6 +33,7 @@ import { AppComponent } from './app.component';
 import { AuthorizationComponent } from './pages/authorization/authorization.component';
 import { BotComponent } from './pages/bot/bot.component';
 import { MyFavoritesComponent } from './pages/my-favorites/my-favorites.component';
+import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RecipePageComponent } from './pages/recipe-page/recipe-page.component';
 import { RecipesComponent } from './pages/recipes/recipes.component';
@@ -50,6 +51,7 @@ import { AllInterceptors } from './services/apiInterceptors/AllInterceptors';
         RecipeCardComponent,
         IconsComponent,
         FilterComponentComponent,
+        NotFoundPageComponent,
     ],
     imports: [
         HttpClientModule,
@@ -83,6 +85,7 @@ import { AllInterceptors } from './services/apiInterceptors/AllInterceptors';
             { path: 'profile', component: ProfileComponent },
             { path: 'favorites', component: MyFavoritesComponent },
             { path: 'authorization', component: AuthorizationComponent },
+            { path: '**', component: NotFoundPageComponent },
         ]),
     ],
     providers: [importProvidersFrom(HttpClientModule), AllInterceptors],
