@@ -1,2 +1,104 @@
-<h2 >recipe-page works!</h2>
-<h3>{{recipe.title}}</h3>
+<div class="wrapper">
+    <button class="backButton" (click)="goBack()" mat-icon-button matTooltip="Back to recipes" aria-label="Log out">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>{{ recipe.title }}</h1>
+    <app-icons
+        [vegan]="recipe.vegan"
+        [vegetarian]="recipe.vegetarian"
+        [dairyFree]="recipe.dairyFree"
+        [veryHealthy]="recipe.veryHealthy"
+        [veryPopular]="recipe.veryPopular"
+        [cheap]="recipe.cheap"
+        [lowFodmap]="recipe.lowFodmap"
+        [sustainable]="recipe.sustainable"
+        [glutenFree]="recipe.glutenFree"
+        [time]="recipe.readyInMinutes"
+    ></app-icons>
+    <p class="titleValues mt10">Ready in: {{ recipe.readyInMinutes + ' min' }}</p>
+    <p class="titleValues">Servings: {{ recipe.servings }}</p>
+    <div class="flexContainer mt10">
+        <img class="image" [src]="recipe.image" alt="Recipe image" />
+        <p class="summary" [innerHTML]="recipe.summary"></p>
+    </div>
+    <hr />
+    <mat-accordion>
+        <mat-expansion-panel hideToggle class="panel">
+            <mat-expansion-panel-header class="title">
+                <mat-panel-title>Ingridients: </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-divider class="mb10"></mat-divider>
+            <ul>
+                <li *ngFor="let ingridient of recipe.nutrition.ingredients" class="fz15">
+                    {{ ingridient.name + ': ' + ingridient.amount + ' ' + ingridient.unit }}
+                </li>
+            </ul>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <hr />
+    <mat-accordion>
+        <mat-expansion-panel hideToggle class="panel">
+            <mat-expansion-panel-header class="title">
+                <mat-panel-title>Step-by-step cooking: </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-divider class="mb10"></mat-divider>
+            <ul>
+                <li *ngFor="let step of cookingSteps">
+                    <h2>Step: {{ step.number }}</h2>
+                    <p class="fz16">{{ step.step }}</p>
+
+                    <ng-template [ngIf]="step.ingredients.length > 0">
+                        <h3>Ingridiets:</h3>
+                        <ol class="mb10">
+                            <li *ngFor="let ingridient of step.ingredients">
+                                {{ ingridient.name }}
+                            </li>
+                        </ol>
+                    </ng-template>
+                    <ng-template [ngIf]="step.equipment.length > 0">
+                        <h3>Equipment:</h3>
+                        <ol class="mb10">
+                            <li *ngFor="let equipment of step.equipment">
+                                {{ equipment.name }}
+                            </li>
+                        </ol>
+                    </ng-template>
+                </li>
+            </ul>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <hr />
+    <mat-accordion>
+        <mat-expansion-panel hideToggle class="panel">
+            <mat-expansion-panel-header class="title">
+                <mat-panel-title style="max-width: 320px" class="flexContainer">
+                    <div>Nutriets:</div>
+                    <div>Daily needs:</div>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-divider class="mb10"></mat-divider>
+            <ul>
+                <li class="fz15 flexContainer" style="max-width: 270px" *ngFor="let nutrient of nutriets">
+                    <div>
+                        {{ nutrient.name + ': ' + nutrient.amount + ' ' + nutrient.unit + '  ' }}
+                    </div>
+                    <div>{{ nutrient.percentOfDailyNeeds + '%' }}</div>
+                </li>
+            </ul>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <hr />
+    <mat-accordion>
+        <mat-expansion-panel hideToggle class="panel">
+            <mat-expansion-panel-header class="title">
+                <mat-panel-title>Properties: </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-divider class="mb10"></mat-divider>
+            <ul>
+                <li class="fz15" *ngFor="let property of properties">
+                    {{ property.name + ': ' + property.amount + ' ' + property.unit }}
+                </li>
+            </ul>
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>

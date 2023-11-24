@@ -18,6 +18,7 @@
     </div>
     <mat-card-content class="mt6" style="display: flex; flex-direction: column; flex: 1 1 auto">
         <app-icons
+            [enableFilter]="true"
             [vegan]="recipe.vegan"
             [vegetarian]="recipe.vegetarian"
             [dairyFree]="recipe.dairyFree"
@@ -53,9 +54,6 @@
         </div>
     </div>
     <mat-card-actions>
-        <!-- <button [routerLink]="['/recipe/' + recipe.id, recipe]" class="center" mat-raised-button color="primary"> -->
-        <button (click)="navigate()" class="center" mat-raised-button color="primary">
-            View recipe
-        </button>
+        <button (click)="navigate()" class="center" mat-raised-button color="primary">View recipe</button>
     </mat-card-actions>
 </mat-card>

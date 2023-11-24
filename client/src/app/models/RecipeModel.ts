@@ -19,6 +19,7 @@ export interface IRecipe {
         ingredients: IIngredients[];
     };
     summary: string;
+    servings:number;
     dishTypes: IDishType[];
     diets: string[];
     analyzedInstructions: IAnalyzedInstructions[];
@@ -76,14 +77,14 @@ export type IDishType =
     | "hor d'oeuvre"
     | 'brunch';
 
-interface INutruent {
-    name: 'Calories' | 'Fat' | 'Carbohydrates' | 'Protein' | string;
+export interface INutruent {
+    name: string;
     // name: string;
     amount: number;
     unit: string;
     percentOfDailyNeeds: number;
 }
-interface IProperties {
+export interface IProperties {
     name: string;
     amount: string;
     unit: string;
@@ -92,7 +93,7 @@ interface IAnalyzedInstructions {
     name: string;
     steps: ISteps[];
 }
-interface ISteps {
+export interface ISteps {
     number: number;
     step: string;
     ingredients: IIngredients[];
@@ -101,8 +102,10 @@ interface ISteps {
 interface IIngredients {
     id: number;
     name: string;
-    localizedName: string;
+    // localizedName: string;
     image: string;
+    amount:number;
+    unit:string;
 }
 interface IEquipment extends IIngredients {}
 export interface IIngridietnsList {

@@ -39,8 +39,18 @@ import { RecipePageComponent } from './pages/recipe-page/recipe-page.component';
 import { RecipesComponent } from './pages/recipes/recipes.component';
 import { AllInterceptors } from './services/apiInterceptors/AllInterceptors';
 
+const routes = [
+    { path: '', component: RecipesComponent },
+    { path: 'recipe/:recipeId', component: RecipePageComponent, data: { animation: 'HomePage' } },
+    { path: 'bot', component: BotComponent, data: { animation: 'HomePage' } },
+    { path: 'profile', component: ProfileComponent, data: { animation: 'AboutPage' } },
+    { path: 'favorites', component: MyFavoritesComponent, data: { animation: '2' } },
+    { path: 'authorization', component: AuthorizationComponent, data: { animation: '3' } },
+    { path: '**', component: NotFoundPageComponent },
+];
+import { RouterOutlet,RouterLink } from '@angular/router';
 @NgModule({
-    declarations: [
+    declarations: [ 
         AppComponent,
         NavbarComponent,
         MyFavoritesComponent,
@@ -54,6 +64,8 @@ import { AllInterceptors } from './services/apiInterceptors/AllInterceptors';
         NotFoundPageComponent,
     ],
     imports: [
+        RouterOutlet,
+        RouterLink,
         HttpClientModule,
         BrowserModule,
         AppRoutingModule,
@@ -78,17 +90,10 @@ import { AllInterceptors } from './services/apiInterceptors/AllInterceptors';
         MaterialShipsComponent,
         AuthorizationComponent,
         MatSnackBarModule,
-        RouterModule.forRoot([
-            { path: '', component: RecipesComponent },
-            { path: 'recipe/:recipeId', component: RecipePageComponent },
-            { path: 'bot', component: BotComponent },
-            { path: 'profile', component: ProfileComponent },
-            { path: 'favorites', component: MyFavoritesComponent },
-            { path: 'authorization', component: AuthorizationComponent },
-            { path: '**', component: NotFoundPageComponent },
-        ]),
+        RouterModule.forRoot(routes),
     ],
     providers: [importProvidersFrom(HttpClientModule), AllInterceptors],
+    // providers: [importProvidersFrom(HttpClientModule), provideRouter(routes), AllInterceptors],
     bootstrap: [AppComponent],
 })
 export class AppModule {}

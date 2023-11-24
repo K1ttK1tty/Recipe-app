@@ -40,9 +40,6 @@ export class RecipeCardComponent {
         return this.number;
     }
     public navigate() {
-        //  this.router.navigateByUrl('/123', { state: { hello: 'world' } });
         this.router.navigateByUrl('/recipe/' + this.recipe.id, { state: { recipe: this.recipe } });
     }
 }
-// Developer-defined state that can be passed to any navigation.
-//  Access this value through the Navigation.extras object returned from the Router.getCurrentNavigation() method while a navigation is executing.

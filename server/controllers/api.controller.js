@@ -24,5 +24,12 @@ class apiController {
             next();
         }
     }
+    async botConversation(req,res,next){
+        try {
+            
+        } catch (err) {
+            
+        }
+    }
 }
 module.exports = new apiController();

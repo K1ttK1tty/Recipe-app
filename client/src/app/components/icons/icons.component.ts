@@ -17,15 +17,18 @@ export class IconsComponent {
     @Input() lowFodmap!: boolean;
     @Input() sustainable!: boolean;
     @Input() time!: number;
+    @Input() enableFilter?: boolean;
     isFilled = true;
     isLike = true;
     constructor(private filterService: FilterService) {}
 
     public getDiet(diet: string) {
+        if (!this.enableFilter) return;
         this.filterService.panel = 'diet';
         this.filterService.diet = diet;
     }
     public getIntolerance(intolerance: string) {
+        if (!this.enableFilter) return;
         this.filterService.panel = 'intolerance';
         this.filterService.intolerance = intolerance;
     }
