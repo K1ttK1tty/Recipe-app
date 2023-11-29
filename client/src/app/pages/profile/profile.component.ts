@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { captchaService } from 'src/app/services/captcha.service';
 
 import { allDiets, allIntolerances } from 'src/app/components/filter-component/data';
 
@@ -11,7 +12,10 @@ import { IUser, IUserInfo } from 'src/app/models/UserModel';
     styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent {
-    constructor(private authService: AuthService) {}
+    constructor(
+        private authService: AuthService,
+        private captchaService: captchaService,
+    ) {}
     isEditMode = false;
     userName = this.user?.name;
     profileInfo = this.user?.data.profileInfo;
@@ -76,7 +80,8 @@ export class ProfileComponent {
     public uploadData(email: string, name: string, userInfo: IUserInfo) {
         this.authService.uploadData(email, name, userInfo);
     }
-    public logOut(){
-        this.authService.logOut()
+    public logOut() {
+        const captchaToken = this.captchaService.getCaptchaToken();
+        this.authService.logOut(captchaToken);
     }
 }

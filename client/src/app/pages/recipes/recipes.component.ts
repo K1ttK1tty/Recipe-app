@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 
 import { IRecipe } from 'src/app/models/RecipeModel';
@@ -8,32 +8,35 @@ import { IRecipe } from 'src/app/models/RecipeModel';
     templateUrl: './recipes.component.html',
     styleUrls: ['./recipes.component.scss'],
 })
-export class RecipesComponent implements OnInit {
-    constructor(private service: ApiService) {}
-    newRecipes: IRecipe[] | [] = [];
-    numberOfSkip = this.service.skipNumber;
-    mockRecipes: IRecipe[] | [] = [];
+export class RecipesComponent {
+    constructor(private apiService: ApiService) {
+        this.apiService.allRecipes.subscribe(resp => {
+            this.mockRecipes = resp;
+            // this.newRecipes = resp;
+        });
+    }
+    newRecipes?: IRecipe[] | [] = [];
+    numberOfSkip = this.apiService.skipNumber;
+    mockRecipes?: IRecipe[] | [];
     pageWidth: number = window.innerWidth;
     numberOfCols: string = this.colsNumber(window.innerWidth);
-    ngOnInit() {
-        // this.getRecipes()
-        this.getMockResipes();
-    }
     public getRecipes() {
-        this.service.getRecipes().subscribe(resp => {
+        this.apiService.getRecipes().subscribe(resp => {
             if (resp.body?.results) {
-                this.newRecipes = [...this.newRecipes, ...resp.body?.results];
+                // const array = [...(this.newRecipes || [])];
+                // this.newRecipes = [...(this.newRecipes || []), ...resp.body?.results];
             }
         });
-        this.numberOfSkip = this.service.skipNumber;
+        this.numberOfSkip = this.apiService.skipNumber;
     }
     public getMockResipes() {
-        this.service.getMockRecipes().subscribe(resp => {
-            if (resp?.results) {
-                this.mockRecipes = resp.results;
-                console.log(resp.results);
-            }
-        });
+        // this.apiService.getMockRecipes().subscribe(resp => {
+        //     if (resp?.results) {
+        //         this.mockRecipes = resp.results;
+        //         console.log(resp.results);
+        //     }
+        // });
+        // this.mockRecipes = this.apiService.allRecipes;
     }
 
     @HostListener('window:resize', ['$event'])

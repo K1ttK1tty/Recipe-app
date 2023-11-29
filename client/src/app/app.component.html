@@ -1,4 +1,18 @@
 <app-navbar></app-navbar>
+<div *ngIf="isLogin$ | async" class="spinner">
+    <mat-spinner color="accent"></mat-spinner>
+</div>
+<div class="container-fluid py-3">
+    <h1>Angular reCAPTCHA v3</h1>
+
+    <form #form="ngForm">
+        <div class="row mt-3">
+            <div class="col-sm-12 mb-2">
+                <button type="submit"(click)="sendCaptcha(form)">Send</button>
+            </div>
+        </div>
+    </form>
+</div>
 <div [@routeAnimations]="getRouteAnimationData()">
     <router-outlet></router-outlet>
 </div>

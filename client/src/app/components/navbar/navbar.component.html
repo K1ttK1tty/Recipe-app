@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
     <span>GreatFlavor</span>
     <span class="example-spacer"></span>
-    <span *ngIf="mobileOrDescMenu">
+    <ng-container *ngIf="mobileOrDescMenu">
         <a
             [routerLinkActiveOptions]="{ exact: true }"
             [routerLinkActive]="'activeRoute'"
@@ -32,7 +32,7 @@
         >
             Sigh up/Log in
         </a>
-    </span>
+    </ng-container>
 
     <span *ngIf="!mobileOrDescMenu">
         <button mat-button [matMenuTriggerFor]="beforeMenu">{{ currentPage }}</button>

@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
 
 import { IQueryParams } from '../models/RecipeModel';
 import { IIngridietnsList } from '../models/RecipeModel';
@@ -18,7 +18,8 @@ export interface IFetch {
 })
 export class ApiService {
     skipNumber = 0;
-    allRecipes!: IRecipe[] | [];
+    vhn = new BehaviorSubject(undefined);
+    allRecipes: BehaviorSubject<IRecipe[] | undefined> = new BehaviorSubject<IRecipe[] | undefined>(undefined);
     constructor(private http: HttpClient) {}
 
     public getRecipes(params?: IQueryParams): Observable<HttpResponse<IFetch>> {
@@ -31,13 +32,17 @@ export class ApiService {
             })
             .pipe(catchError(this.catchErrorHandler));
         // this.skipNumber += 21;
-        console.log(recipes.subscribe(resp=>{
-            console.log(resp.body)
-        }))
+        recipes.subscribe(resp => {
+            console.log(resp.body);
+        });
         return recipes;
     }
     public getMockRecipes(): Observable<IFetch> {
-        return this.http.get<IFetch>('../../assets/DADATA.json');
+        const response = this.http.get<IFetch>('../../assets/DADATA.json');
+        response.subscribe(resp => {
+            this.allRecipes?.next(resp.results);
+        });
+        return response;
     }
     private catchErrorHandler(error: HttpErrorResponse) {
         if (error.status === 0) {

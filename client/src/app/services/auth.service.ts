@@ -33,11 +33,12 @@ export class AuthService {
     public unAuthorize() {
         this.isUserAuthorized.next(false);
     }
-    public registration(name: string, email: string, password: string) {
+    public registration(name: string, email: string, password: string, captchaToken: string) {
         return this.http
-            .post('http://localhost:5001/api/registration', { userName: name, email, password })
+            .post('http://localhost:5001/api/registration', { userName: name, email, password, captchaToken })
             .pipe(
-                catchError(error => {
+                catchError((error: HttpErrorResponse) => {
+                    this.SnackbarService.openSnackbar(error.error.message);
                     return this.catchErrorHandler(error);
                 }),
             )
@@ -45,9 +46,43 @@ export class AuthService {
                 this.SnackbarService.openSnackbar('Registration completed successfully');
             });
     }
-    public login(email: string, password: string) {
+    public login(email: string, password: string, captchaToken: string) {
         return this.http
-            .post<ILogin>('http://localhost:5001/api/login', { email, password })
+            .post<ILogin>('http://localhost:5001/api/login', { email, password, captchaToken })
+            .pipe(
+                catchError((error: HttpErrorResponse) => {
+                    this.SnackbarService.openSnackbar(error.error.message);
+                    return this.catchErrorHandler(error);
+                }),
+            )
+            .subscribe(resp => {
+                this.SnackbarService.openSnackbar('You are logged into your account');
+                this.authorize();
+                localStorage.setItem('token', resp.accessToken);
+
+                this.user.next(resp.user);
+                this.router.navigate(['/profile']);
+            });
+    }
+    public logOut(captchaToken: string) {
+        this.http
+            .post('http://localhost:5001/api/logout', { captchaToken })
+            .pipe(
+                catchError((error: HttpErrorResponse) => {
+                    this.SnackbarService.openSnackbar(error.error.message);
+                    return this.catchErrorHandler(error);
+                }),
+            )
+            .subscribe(() => {
+                this.SnackbarService.openSnackbar('You are logged out');
+                this.unAuthorize();
+                this.user.next({});
+                this.router.navigate(['/']);
+            });
+    }
+    public refresh() {
+        return this.http
+            .get<ILogin>('http://localhost:5001/api/refresh')
             .pipe(
                 catchError(error => {
                     return this.catchErrorHandler(error);
@@ -56,38 +91,21 @@ export class AuthService {
             .subscribe(resp => {
                 this.SnackbarService.openSnackbar('You are logged into your account');
                 this.authorize();
-                // console.log(resp);
-                localStorage.setItem('token', resp.accessToken);
-
                 this.user.next(resp.user);
-                this.router.navigate(['/profile']);
+                localStorage.setItem('token', resp.accessToken);
             });
     }
-    public logOut() {
-        this.unAuthorize();
-        this.user.next({});
-        this.router.navigate(['/']);
-        this.http.post('http://localhost:5001/api/logout', {}).subscribe(() => {
-            this.SnackbarService.openSnackbar('You are logged out');
-        });
-    }
-    public refresh() {
-        return this.http.get<ILogin>('http://localhost:5001/api/refresh').subscribe(resp => {
-            console.log(resp);
-            this.SnackbarService.openSnackbar('You are logged into your account');
-            this.authorize();
-            this.user.next(resp.user);
-            localStorage.setItem('token', resp.accessToken);
-        });
-    }
+
     private catchErrorHandler(error: HttpErrorResponse) {
-        let message: string;
-        if (error.status === 0) {
-            message = 'An error occured';
-            console.error('An error occured:', error.error);
-        } else {
-            message = `Backend returned error code - ${error.status}`;
-            console.error(`Backend returned error code - ${error.status}`);
+        let message = error.error.message ? (error.error.message as string) : '';
+        if (!message) {
+            if (error.status === 0) {
+                message = 'An error occured';
+                console.error('An error occured:', error.error);
+            } else {
+                message = `Backend Error - ${error.status}`;
+                console.error(`Backend returned error code - ${error.status}`);
+            }
         }
         return throwError(() => {
             this.SnackbarService.openSnackbar(message);
@@ -111,9 +129,8 @@ export class AuthService {
                     return this.catchErrorHandler(err);
                 }),
             )
-            .subscribe(resp => {
+            .subscribe(() => {
                 this.SnackbarService.openSnackbar('Your information has been updated');
-                console.log(resp);
             });
     }
 }

@@ -1,30 +1,15 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule, importProvidersFrom } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSliderModule } from '@angular/material/slider';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
+import { recaptcha } from 'src/enviroment/enviroment';
 
 import { FilterComponentComponent } from './components/filter-component/filter-component.component';
 import { IconsComponent } from './components/icons/icons.component';
-import { MaterialShipsComponent } from './components/material-ships/material-ships.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RecipeCardComponent } from './components/recipe-card/recipe-card.component';
 
@@ -38,19 +23,11 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { RecipePageComponent } from './pages/recipe-page/recipe-page.component';
 import { RecipesComponent } from './pages/recipes/recipes.component';
 import { AllInterceptors } from './services/apiInterceptors/AllInterceptors';
+import { materialImports } from './simplification';
+import { routes } from './simplification';
 
-const routes = [
-    { path: '', component: RecipesComponent },
-    { path: 'recipe/:recipeId', component: RecipePageComponent, data: { animation: 'HomePage' } },
-    { path: 'bot', component: BotComponent, data: { animation: 'HomePage' } },
-    { path: 'profile', component: ProfileComponent, data: { animation: 'AboutPage' } },
-    { path: 'favorites', component: MyFavoritesComponent, data: { animation: '2' } },
-    { path: 'authorization', component: AuthorizationComponent, data: { animation: '3' } },
-    { path: '**', component: NotFoundPageComponent },
-];
-import { RouterOutlet,RouterLink } from '@angular/router';
 @NgModule({
-    declarations: [ 
+    declarations: [
         AppComponent,
         NavbarComponent,
         MyFavoritesComponent,
@@ -70,30 +47,17 @@ import { RouterOutlet,RouterLink } from '@angular/router';
         BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
-        MatButtonModule,
-        MatToolbarModule,
-        MatSidenavModule,
-        MatIconModule,
-        MatExpansionModule,
-        MatMenuModule,
-        MatCardModule,
-        MatGridListModule,
-        MatDividerModule,
-        MatSlideToggleModule,
-        MatSliderModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatChipsModule,
+        [...materialImports],
         FormsModule,
-        MatAutocompleteModule,
-        MatTooltipModule,
-        MaterialShipsComponent,
         AuthorizationComponent,
-        MatSnackBarModule,
         RouterModule.forRoot(routes),
+        RecaptchaV3Module,
     ],
-    providers: [importProvidersFrom(HttpClientModule), AllInterceptors],
-    // providers: [importProvidersFrom(HttpClientModule), provideRouter(routes), AllInterceptors],
+    providers: [
+        { provide: RECAPTCHA_V3_SITE_KEY, useValue: recaptcha.siteKey || 'recaptchaKeyRequired' },
+        importProvidersFrom(HttpClientModule),
+        AllInterceptors,
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule {}

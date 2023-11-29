@@ -1,5 +1,4 @@
 import { Component, DoCheck } from '@angular/core';
-import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { FilterService } from 'src/app/services/filter.service';
 
@@ -17,7 +16,6 @@ import { allCuisines, allDiets, allDishTypes, allIntolerances } from './data';
 export class FilterComponentComponent implements DoCheck {
     constructor(
         private filterService: FilterService,
-        private apiService: ApiService,
         private authService: AuthService,
     ) {}
 
@@ -84,7 +82,6 @@ export class FilterComponentComponent implements DoCheck {
                 this.shareLogic();
                 break;
             default:
-                // console.log(this.includeStepByStepCooking)
                 break;
         }
     }
@@ -133,8 +130,6 @@ export class FilterComponentComponent implements DoCheck {
             if (result[key]) t += result[key];
         }
         console.log(result);
-
-        // this.apiService.getRecipes(result);
     }
     public disable() {
         this.maxCalories = 800;

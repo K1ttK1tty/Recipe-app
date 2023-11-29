@@ -45,3 +45,6 @@ Thumbs.db
 ../server/.env
 ../server/node_modules
 ../server/usersData
+
+# captcha
+/src/enviroment/enviroment.ts

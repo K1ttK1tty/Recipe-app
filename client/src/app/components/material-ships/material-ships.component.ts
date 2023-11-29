@@ -24,6 +24,7 @@ import { ApiService } from 'src/app/services/api.service';
 
 import { IIngridietnsList } from 'src/app/models/RecipeModel';
 
+let onInitialization = 0;
 @Component({
     selector: 'app-material-ships',
     templateUrl: './material-ships.component.html',
@@ -58,17 +59,17 @@ export class MaterialShipsComponent implements OnInit {
     @ViewChild('fruitInput') fruitInput!: ElementRef<HTMLInputElement>;
     announcer = inject(LiveAnnouncer);
     ngOnInit() {
+        if (onInitialization) return;
+        onInitialization = 1;
         this.api.getlistOfIngridients().subscribe((response: IIngridietnsList[]) => (this.allFruits = response));
     }
     public add(event: MatChipInputEvent): void {
         const value = (event.value || '').trim();
-        // Add our fruit
         if (value) {
             this.allFruits.forEach(({ ingridient }) => {
                 if (ingridient === value) this.selectedIngridients.push(value);
             });
         }
-        // Clear the input value
         event.chipInput!.clear();
         this.fruitCtrl.setValue(null);
     }
