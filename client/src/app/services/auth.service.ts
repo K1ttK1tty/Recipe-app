@@ -2,13 +2,14 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, throwError } from 'rxjs';
+import { catchError } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 
 import { ILogin, IUser, IUserInfo } from '../models/UserModel';
 
+import { CatchErrorService } from './catch-error.service';
 import { SnackbarService } from './snackbar.service';
-
+import { environment } from 'src/enviroment/enviroment';
 @Injectable({
     providedIn: 'root',
 })
@@ -17,6 +18,7 @@ export class AuthService {
         private http: HttpClient,
         private SnackbarService: SnackbarService,
         private router: Router,
+        private catchError: CatchErrorService,
     ) {}
     private isUserAuthorized = new BehaviorSubject(false);
     private user = new BehaviorSubject<IUser | {}>({});
@@ -35,11 +37,11 @@ export class AuthService {
     }
     public registration(name: string, email: string, password: string, captchaToken: string) {
         return this.http
-            .post('http://localhost:5001/api/registration', { userName: name, email, password, captchaToken })
+            .post(`${environment.serverPath}registration`, { userName: name, email, password, captchaToken })
             .pipe(
                 catchError((error: HttpErrorResponse) => {
                     this.SnackbarService.openSnackbar(error.error.message);
-                    return this.catchErrorHandler(error);
+                    return this.catchError.catchErrorHandler(error);
                 }),
             )
             .subscribe(() => {
@@ -48,11 +50,11 @@ export class AuthService {
     }
     public login(email: string, password: string, captchaToken: string) {
         return this.http
-            .post<ILogin>('http://localhost:5001/api/login', { email, password, captchaToken })
+            .post<ILogin>(`${environment.serverPath}login`, { email, password, captchaToken })
             .pipe(
                 catchError((error: HttpErrorResponse) => {
                     this.SnackbarService.openSnackbar(error.error.message);
-                    return this.catchErrorHandler(error);
+                    return this.catchError.catchErrorHandler(error);
                 }),
             )
             .subscribe(resp => {
@@ -66,11 +68,11 @@ export class AuthService {
     }
     public logOut(captchaToken: string) {
         this.http
-            .post('http://localhost:5001/api/logout', { captchaToken })
+            .post(`${environment.serverPath}logout`, { captchaToken })
             .pipe(
                 catchError((error: HttpErrorResponse) => {
                     this.SnackbarService.openSnackbar(error.error.message);
-                    return this.catchErrorHandler(error);
+                    return this.catchError.catchErrorHandler(error);
                 }),
             )
             .subscribe(() => {
@@ -82,10 +84,11 @@ export class AuthService {
     }
     public refresh() {
         return this.http
-            .get<ILogin>('http://localhost:5001/api/refresh')
+            .get<ILogin>(`${environment.serverPath}refresh`)
             .pipe(
                 catchError(error => {
-                    return this.catchErrorHandler(error);
+                    this.SnackbarService.openSnackbar(error.error.message);
+                    return this.catchError.catchErrorHandler(error);
                 }),
             )
             .subscribe(resp => {
@@ -95,27 +98,10 @@ export class AuthService {
                 localStorage.setItem('token', resp.accessToken);
             });
     }
-
-    private catchErrorHandler(error: HttpErrorResponse) {
-        let message = error.error.message ? (error.error.message as string) : '';
-        if (!message) {
-            if (error.status === 0) {
-                message = 'An error occured';
-                console.error('An error occured:', error.error);
-            } else {
-                message = `Backend Error - ${error.status}`;
-                console.error(`Backend returned error code - ${error.status}`);
-            }
-        }
-        return throwError(() => {
-            this.SnackbarService.openSnackbar(message);
-            return new Error('Something went wrong. Please try again later.');
-        });
-    }
     public uploadData(email: string, name: string, userInfo: IUserInfo) {
         this.http
             .post(
-                'http://localhost:5001/api/uploadData',
+                `${environment.serverPath}uploadData`,
                 { email, name, userInfo },
                 {
                     headers: new HttpHeaders({
@@ -125,8 +111,9 @@ export class AuthService {
                 },
             )
             .pipe(
-                catchError(err => {
-                    return this.catchErrorHandler(err);
+                catchError(error => {
+                    this.SnackbarService.openSnackbar(error.error.message);
+                    return this.catchError.catchErrorHandler(error);
                 }),
             )
             .subscribe(() => {

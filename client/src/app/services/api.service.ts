@@ -1,18 +1,14 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError } from 'rxjs';
 
 import { IQueryParams } from '../models/RecipeModel';
 import { IIngridietnsList } from '../models/RecipeModel';
 import { IRecipe } from '../models/RecipeModel';
-
-export interface IFetch {
-    results?: IRecipe[] | undefined;
-    offset?: number | undefined;
-    number?: number | undefined;
-    totalResults?: number | undefined;
-}
+import { IFetch } from '../models/ServiceModels';
+import { CatchErrorService } from './catch-error.service';
+import { environment } from 'src/enviroment/enviroment';
 @Injectable({
     providedIn: 'root',
 })
@@ -20,17 +16,17 @@ export class ApiService {
     skipNumber = 0;
     vhn = new BehaviorSubject(undefined);
     allRecipes: BehaviorSubject<IRecipe[] | undefined> = new BehaviorSubject<IRecipe[] | undefined>(undefined);
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient,private catchError:CatchErrorService) {}
 
     public getRecipes(params?: IQueryParams): Observable<HttpResponse<IFetch>> {
         const currentParams = new HttpParams({ fromObject: params });
         // console.log(currentParams);
         const recipes = this.http
-            .get<IFetch>(`http://localhost:5001/api/getRecipes/${this.skipNumber}`, {
+            .get<IFetch>(`${environment.serverPath}getRecipes/${this.skipNumber}`, {
                 observe: 'response',
                 params: currentParams,
             })
-            .pipe(catchError(this.catchErrorHandler));
+            .pipe(catchError(this.catchError.catchErrorHandler));
         // this.skipNumber += 21;
         recipes.subscribe(resp => {
             console.log(resp.body);
@@ -43,14 +39,6 @@ export class ApiService {
             this.allRecipes?.next(resp.results);
         });
         return response;
-    }
-    private catchErrorHandler(error: HttpErrorResponse) {
-        if (error.status === 0) {
-            console.error('An error occured:', error.error);
-        } else {
-            console.error(`Backend returned error code - ${error.status}`);
-        }
-        return throwError(() => new Error('Something went wrong. Please try again later.'));
     }
     public getlistOfIngridients() {
         return this.http.get<IIngridietnsList[]>('../../assets/listOfIngredients.json');

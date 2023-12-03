@@ -5,8 +5,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
-import { recaptcha } from 'src/enviroment/enviroment';
+import { environment } from 'src/enviroment/enviroment';
 
 import { FilterComponentComponent } from './components/filter-component/filter-component.component';
 import { IconsComponent } from './components/icons/icons.component';
@@ -52,9 +53,16 @@ import { routes } from './simplification';
         AuthorizationComponent,
         RouterModule.forRoot(routes),
         RecaptchaV3Module,
+        ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: environment.enableServiceWorker,
+
+            // Register the ServiceWorker as soon as the application is stable
+            // or after 30 seconds (whichever comes first).
+            registrationStrategy: 'registerWhenStable:30000',
+        }),
     ],
     providers: [
-        { provide: RECAPTCHA_V3_SITE_KEY, useValue: recaptcha.siteKey || 'recaptchaKeyRequired' },
+        { provide: RECAPTCHA_V3_SITE_KEY, useValue: environment.recaptchaKey || 'recaptchaKeyRequired' },
         importProvidersFrom(HttpClientModule),
         AllInterceptors,
     ],

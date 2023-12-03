@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { captchaService } from 'src/app/services/captcha.service';
+import { PushNotificationsService } from 'src/app/services/push-notifications.service';
 
 import { allDiets, allIntolerances } from 'src/app/components/filter-component/data';
 
@@ -15,6 +16,7 @@ export class ProfileComponent {
     constructor(
         private authService: AuthService,
         private captchaService: captchaService,
+        private pushNotificService: PushNotificationsService,
     ) {}
     isEditMode = false;
     userName = this.user?.name;
@@ -83,5 +85,11 @@ export class ProfileComponent {
     public logOut() {
         const captchaToken = this.captchaService.getCaptchaToken();
         this.authService.logOut(captchaToken);
+    }
+    public registratePushNotifications() {
+        this.pushNotificService.addSubscription();
+    }
+    public sendPushNotification() {
+        this.pushNotificService.sendMessage('Your first push message');
     }
 }

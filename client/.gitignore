@@ -46,5 +46,5 @@ Thumbs.db
 ../server/node_modules
 ../server/usersData
 
-# captcha
-/src/enviroment/enviroment.ts
+# enviroment
+/src/enviroment

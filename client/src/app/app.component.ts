@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { ChildrenOutletContexts } from '@angular/router';
+import { SwPush } from '@angular/service-worker';
+import { environment } from 'src/enviroment/enviroment';
 
 import { slideInAnimation } from './animations/RouterAnimastions';
 import { ApiService } from './services/api.service';
 import { AuthService } from './services/auth.service';
-import { captchaService } from './services/captcha.service';
 import { LoadingService } from './services/loading.service';
+import { PushNotificationsService } from './services/push-notifications.service';
 
 @Component({
     selector: 'app-root',
@@ -20,26 +21,28 @@ export class AppComponent implements OnInit {
         private loginService: LoadingService,
         private contexts: ChildrenOutletContexts,
         private apiService: ApiService,
-        private captchaService: captchaService,
+        private swPush: SwPush,
+        private pushNotifService: PushNotificationsService,
     ) {}
 
     isLogin$ = this.loginService.getLogin();
     ngOnInit() {
-        const captchaToken = this.captchaService.getCaptchaToken();
-
         this.authService.refresh();
         // this.apiService.getRecipes();
         this.apiService.getMockRecipes();
+        this.subscribeNotifications();
+    }
+    public subscribeNotifications() {
+        this.swPush
+            .requestSubscription({
+                serverPublicKey: environment.vapidPublicKey,
+            })
+            .then(sub => {
+                this.pushNotifService.assingSubscription(sub)
+            })
+            .catch(err => console.log(err));
     }
     public getRouteAnimationData() {
         return this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'];
-    }
-    public sendCaptcha(form: NgForm) {
-        if (form.invalid) {
-            for (const control of Object.keys(form.controls)) {
-                form.controls[control].markAsTouched();
-            }
-            return;
-        }
     }
 }
