@@ -6,7 +6,8 @@ const fileError = require('../exeptions/fileError.js');
 class fileService {
     async createUsersDataDir() {
         if (!fs.existsSync(process.env.USER_DATA_PATH)) {
-            fs.mkdirSync(path.resolve(process.env.SERVER_DIR_PATH, 'usersData'));
+            fs.mkdirSync(path.resolve(process.env.USER_DATA_PATH));
+            // fs.mkdirSync(path.resolve(process.env.SERVER_DIR_PATH, 'usersData'));
         }
     }
     async createFile(email) {

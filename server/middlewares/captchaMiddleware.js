@@ -14,9 +14,8 @@ module.exports = async function (req, res, next) {
                 },
             }
         );
-
         if (!captchaResult.data.success) next(CaptchaError.captchaError());
-        if (captchaResult.score < 0.5) next(CaptchaError.captchaError());
+        if (captchaResult.data.score < 0.5) next(CaptchaError.captchaError());
 
         next();
     } catch (err) {

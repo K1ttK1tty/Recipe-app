@@ -5,6 +5,7 @@ const router = new Router();
 const userController = require('../controllers/user.controller.js');
 const fileController = require('../controllers/file.controller.js');
 const apiController = require('../controllers/api.controller.js');
+const notificationController = require('../controllers/notifications.controller.js');
 // other
 const { body } = require('express-validator');
 const authMiddleware = require('../middlewares/authMiddleware.js');
@@ -37,5 +38,8 @@ router.post('/uploadData', authMiddleware, fileController.uploadData);
 router.post('/uploadAvatar', authMiddleware, fileController.uploadAvatar);
 router.post('/getAvatar', authMiddleware, fileController.getAvatar);
 router.post('/removeAvatar', authMiddleware, fileController.removeAvatar);
+// push notifications
+router.post('/registrateUserPushSubscription', authMiddleware, notificationController.registrateUserPushSubscription);
+router.post('/sendNotification', authMiddleware, notificationController.sendNotification);
 
 module.exports = router;

@@ -14,4 +14,8 @@ module.exports = class FileError extends Error {
     static getDataError() {
         return new FileError(500, 'Data error');
     }
+    static customError(code, message) {
+        // for any error, not only for file error
+        return new FileError(code, message);
+    }
 };
