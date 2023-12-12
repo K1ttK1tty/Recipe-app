@@ -4,6 +4,15 @@
     margin: 0px auto;
     display: flex;
 }
+.rightFilterPosition {
+    flex-direction: row-reverse;
+}
+.rotate180 {
+    transform: rotate(180deg);
+}
+.rightPosition {
+    margin-left: 80%;
+}
 .recipesWrapper {
     width: 100%;
 }
@@ -64,4 +73,25 @@
     &:hover {
         background: #9264e0;
     }
+}
+.mat-icon-button {
+    scale: 0.75;
+    position: relative;
+    margin-bottom: -12px;
+}
+.matButtonLeftPosition {
+    top: -10px;
+    right: -13px;
+}
+.matButtonRightPosition {
+    top: -10px;
+    left: -13px;
+}
+.errorImg {
+    height: 90%;
+    width: 90%;
+    border-radius: 8px;
+    margin: 0px auto;
+    display: block;
+    object-fit: cover;
 }

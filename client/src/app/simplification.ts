@@ -1,4 +1,3 @@
-import { inject } from '@angular/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -27,7 +26,6 @@ import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.com
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RecipePageComponent } from './pages/recipe-page/recipe-page.component';
 import { RecipesComponent } from './pages/recipes/recipes.component';
-import { ApiService } from './services/api.service';
 
 export const materialImports = [
     MatButtonModule,
@@ -51,7 +49,7 @@ export const materialImports = [
     MatSnackBarModule,
 ];
 export const routes = [
-    { path: '', component: RecipesComponent, resolve: { data: () => inject(ApiService).getMockRecipes() } },
+    { path: '', component: RecipesComponent },
     { path: 'recipe/:recipeId', component: RecipePageComponent, data: { animation: 'HomePage' } },
     { path: 'bot', component: BotComponent, data: { animation: 'HomePage' } },
     { path: 'profile', component: ProfileComponent, data: { animation: 'AboutPage' } },

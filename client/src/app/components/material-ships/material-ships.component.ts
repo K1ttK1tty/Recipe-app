@@ -7,6 +7,7 @@ import {
     ElementRef,
     EventEmitter,
     Input,
+    OnDestroy,
     OnInit,
     Output,
     ViewChild,
@@ -18,7 +19,7 @@ import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/ma
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ApiService } from 'src/app/services/api.service';
 
@@ -43,25 +44,34 @@ let onInitialization = 0;
         NgIf,
     ],
 })
-export class MaterialShipsComponent implements OnInit {
+export class MaterialShipsComponent implements OnInit, OnDestroy {
     constructor(private api: ApiService) {
-        this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+        this.filteredFruits$ = this.fruitCtrl.valueChanges.pipe(
             startWith(null),
             map((fruit: IIngridietnsList | null) => (fruit ? this._filter(fruit) : this.allFruits)),
         );
     }
     @Input() selectedIngridients: string[] = [];
     @Output() ingridient: EventEmitter<any> = new EventEmitter();
+    @ViewChild('fruitInput') fruitInput!: ElementRef<HTMLInputElement>;
+
+    subscribtion?: Subscription;
     separatorKeysCodes: number[] = [ENTER, COMMA];
     fruitCtrl: FormControl<IIngridietnsList | null> = new FormControl({ ingridient: '', id: 0 });
-    filteredFruits: Observable<IIngridietnsList[]>;
+    filteredFruits$: Observable<IIngridietnsList[]>;
     allFruits!: IIngridietnsList[];
-    @ViewChild('fruitInput') fruitInput!: ElementRef<HTMLInputElement>;
     announcer = inject(LiveAnnouncer);
     ngOnInit() {
         if (onInitialization) return;
         onInitialization = 1;
-        this.api.getlistOfIngridients().subscribe((response: IIngridietnsList[]) => (this.allFruits = response));
+        this.subscribtion = this.api
+            .getlistOfIngridients()
+            .subscribe((response: IIngridietnsList[]) => (this.allFruits = response));
+    }
+    ngOnDestroy(): void {
+        if (this.subscribtion) {
+            this.subscribtion.unsubscribe();
+        }
     }
     public add(event: MatChipInputEvent): void {
         const value = (event.value || '').trim();

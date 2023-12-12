@@ -18,7 +18,7 @@
             (matChipInputTokenEnd)="add($event)"
         />
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            <div *ngFor="let fruit of filteredFruits | async; index as i">
+            <div *ngFor="let fruit of filteredFruits$ | async; index as i">
                 <mat-option *ngIf="i <= 20" [value]="fruit.ingridient">
                     {{ fruit.ingridient }}
                 </mat-option>

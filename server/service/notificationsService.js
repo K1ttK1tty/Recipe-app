@@ -35,24 +35,28 @@ class notificationsService {
             );
             const notificationPayload = {
                 notification: {
-                    title: 'Notification',
+                    title: 'Go to youtube',
                     body: message,
                     icon: 'assets/icon-152x152.png',
                     vibrate: [100, 50, 100],
                     data: {
                         dateOfArrival: Date.now(),
                         primaryKey: 1,
-                    },
-                    actions: [
-                        {
-                            action: 'explore',
-                            title: 'Go to the site',
+                        onActionClick: {
+                            default: { operation: 'openWindow', url: 'https://www.youtube.com/watch?v=N2vtVBR0cKw&ab_channel=ВЫЖИВАЛОВО' },
                         },
-                    ],
+                    },
+                    // actions: [
+                    //     {
+                    //         action: 'explore',
+                    //         title: 'Go to the site',
+                    //     },
+                    // ],
                 },
             };
             Promise.resolve(webpush.sendNotification(subscription, JSON.stringify(notificationPayload)))
                 .then(ss => {
+                    console.log('ssss:');
                     console.log(ss);
                 })
                 .catch(err => {

@@ -1,6 +1,22 @@
 <div class="wrapper">
     <h2>ChatBot</h2>
+    <button (click)="addBotMessage('botMessage')">Add bot message</button>
     <div class="fieldContainer">
-        
+        <div id="messagesField" class="wrapper"></div>
     </div>
+    <form >
+        <div class="inputOutputBlock">
+            <input #inputElement [(ngModel)]="input" class="input" type="text" [ngModelOptions]="{standalone: true}"/>
+            <button
+                (click)="addUserMessage(inputElement)"
+                [disabled]="!input"
+                mat-icon-button
+                aria-label="Send message"
+                title="Send"
+                type="submit"
+            >
+                <mat-icon [color]="input ? 'primary' : ''" class="material-symbols-outlined"> send </mat-icon>
+            </button>
+        </div>
+    </form>
 </div>

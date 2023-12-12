@@ -32,8 +32,8 @@ router.post('/refreshPassword', userController.setNewPassword); // not checked
 // ................
 // work with API
 router.get('/getRecipes/:numberOfSkip', apiController.fetchRecipes);
-// router.get('/getRecipes', authMiddleware, apiController.fetchRecipes);
 router.post('/uploadData', authMiddleware, fileController.uploadData);
+
 // avatar
 router.post('/uploadAvatar', authMiddleware, fileController.uploadAvatar);
 router.post('/getAvatar', authMiddleware, fileController.getAvatar);

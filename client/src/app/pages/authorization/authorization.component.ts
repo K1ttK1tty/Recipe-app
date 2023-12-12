@@ -5,7 +5,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { AuthService } from 'src/app/services/auth.service';
-import { captchaService } from 'src/app/services/captcha.service';
 
 @Component({
     selector: 'app-authorization',
@@ -18,7 +17,6 @@ export class AuthorizationComponent {
     constructor(
         private formBuilder: FormBuilder,
         private authService: AuthService,
-        private captchaService: captchaService,
     ) {}
     isRegistration = true;
     registrationForm = this.formBuilder.group({
@@ -59,21 +57,13 @@ export class AuthorizationComponent {
         return this.loginForm.controls.password.hasError('minlength') ? 'Value must have more than 4 symbols' : '';
     }
     public logIn() {
-        const captchaToken = this.captchaService.getCaptchaToken();
-        this.authService.login(
-            this.loginForm.controls.email.value,
-            this.loginForm.controls.password.value,
-            captchaToken,
-        );
+        this.authService.login(this.loginForm.controls.email.value, this.loginForm.controls.password.value);
     }
     public registration() {
-        const captchaToken = this.captchaService.getCaptchaToken();
-
         this.authService.registration(
             this.registrationForm.controls.name.value,
             this.registrationForm.controls.email.value,
             this.registrationForm.controls.password.value,
-            captchaToken,
         );
     }
 }

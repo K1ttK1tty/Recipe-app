@@ -1,4 +1,5 @@
 import { Component, HostListener } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 
 import { IRecipe } from 'src/app/models/RecipeModel';
@@ -11,32 +12,24 @@ import { IRecipe } from 'src/app/models/RecipeModel';
 export class RecipesComponent {
     constructor(private apiService: ApiService) {
         this.apiService.allRecipes.subscribe(resp => {
+            if (!resp) {
+                this.unableToFetchRecipes$.next(true);
+                return;
+            }
+            this.unableToFetchRecipes$.next(false);
             this.mockRecipes = resp;
             // this.newRecipes = resp;
         });
     }
+    unableToFetchRecipes$ = new BehaviorSubject<boolean>(false);
+    leftFilterPosition$ = new BehaviorSubject<boolean>(true);
     newRecipes?: IRecipe[] | [] = [];
     numberOfSkip = this.apiService.skipNumber;
     mockRecipes?: IRecipe[] | [];
     pageWidth: number = window.innerWidth;
     numberOfCols: string = this.colsNumber(window.innerWidth);
-    public getRecipes() {
-        this.apiService.getRecipes().subscribe(resp => {
-            if (resp.body?.results) {
-                // const array = [...(this.newRecipes || [])];
-                // this.newRecipes = [...(this.newRecipes || []), ...resp.body?.results];
-            }
-        });
-        this.numberOfSkip = this.apiService.skipNumber;
-    }
-    public getMockResipes() {
-        // this.apiService.getMockRecipes().subscribe(resp => {
-        //     if (resp?.results) {
-        //         this.mockRecipes = resp.results;
-        //         console.log(resp.results);
-        //     }
-        // });
-        // this.mockRecipes = this.apiService.allRecipes;
+    public changeFilterPosition() {
+        this.leftFilterPosition$.next(!this.leftFilterPosition$.value);
     }
 
     @HostListener('window:resize', ['$event'])

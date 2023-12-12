@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
                 serverPublicKey: environment.vapidPublicKey,
             })
             .then(sub => {
-                this.pushNotifService.assingSubscription(sub)
+                this.pushNotifService.assingSubscription(sub);
             })
             .catch(err => console.log(err));
     }

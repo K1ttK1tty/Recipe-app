@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
-import { captchaService } from 'src/app/services/captcha.service';
 import { PushNotificationsService } from 'src/app/services/push-notifications.service';
 
 import { allDiets, allIntolerances } from 'src/app/components/filter-component/data';
@@ -15,7 +14,6 @@ import { IUser, IUserInfo } from 'src/app/models/UserModel';
 export class ProfileComponent {
     constructor(
         private authService: AuthService,
-        private captchaService: captchaService,
         private pushNotificService: PushNotificationsService,
     ) {}
     isEditMode = false;
@@ -83,13 +81,12 @@ export class ProfileComponent {
         this.authService.uploadData(email, name, userInfo);
     }
     public logOut() {
-        const captchaToken = this.captchaService.getCaptchaToken();
-        this.authService.logOut(captchaToken);
+        this.authService.logOut();
     }
     public registratePushNotifications() {
         this.pushNotificService.addSubscription();
     }
     public sendPushNotification() {
-        this.pushNotificService.sendMessage('Your first push message');
+        this.pushNotificService.sendMessage('There is an instruction "how to protect yourself from a group of wolves"');
     }
 }

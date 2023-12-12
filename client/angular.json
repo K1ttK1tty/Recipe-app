@@ -17,7 +17,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/browser-games",
+                        "outputPath": "dist/BrowserGames/browser",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": ["zone.js"],
@@ -106,6 +106,45 @@
                     "options": {
                         "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
                     }
+                },
+                "server": {
+                  "builder": "@angular-devkit/build-angular:server",
+                  "options": {
+                    "outputPath": "dist/BrowserGames/server",
+                    "main": "src/main.server.ts",
+                    "tsConfig": "tsconfig.server.json",
+                    "inlineStyleLanguage": "scss"
+                  },
+                  "configurations": {
+                    "production": {
+                      "outputHashing": "media"
+                    },
+                    "development": {
+                      "buildOptimizer": false,
+                      "optimization": false,
+                      "sourceMap": true,
+                      "extractLicenses": false,
+                      "vendorChunk": true
+                    }
+                  },
+                  "defaultConfiguration": "production"
+                },
+                "app-shell": {
+                  "builder": "@angular-devkit/build-angular:app-shell",
+                  "options": {
+                    "route": "shell"
+                  },
+                  "configurations": {
+                    "production": {
+                      "browserTarget": "BrowserGames:build:production",
+                      "serverTarget": "BrowserGames:server:production"
+                    },
+                    "development": {
+                      "browserTarget": "BrowserGames:build:development",
+                      "serverTarget": "BrowserGames:server:development"
+                    }
+                  },
+                  "defaultConfiguration": "production"
                 }
             }
         }
