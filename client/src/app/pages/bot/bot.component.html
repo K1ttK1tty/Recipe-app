@@ -1,14 +1,46 @@
 <div class="wrapper">
-    <h2>ChatBot</h2>
-    <button (click)="addBotMessage('botMessage')">Add bot message</button>
-    <div class="fieldContainer">
-        <div id="messagesField" class="wrapper"></div>
+    <h2>CHAT BOT</h2>
+    <div
+        [ngClass]="{
+            fieldContainer: true,
+            imageOnBack: true
+        }"
+    >
+        <span id="scrollBlock">
+            <div id="messagesField"></div>
+            <div class="userMessageWrapper defaultQuestionWrapper">
+                <div class="defaultQuestion userMessage" (click)="addUserMessage('Tell me a food fact')">
+                    Tell me a food fact
+                    <mat-icon color="primary">north</mat-icon>
+                </div>
+            </div>
+            <div class="userMessageWrapper defaultQuestionWrapper">
+                <div class="defaultQuestion userMessage" (click)="addUserMessage('Tell me food trivia')">
+                    Tell me food trivia
+                    <mat-icon color="primary">north</mat-icon>
+                </div>
+            </div>
+            <div class="userMessageWrapper defaultQuestionWrapper">
+                <div class="defaultQuestion userMessage" (click)="addUserMessage('Tell me a fact about food')">
+                    Tell me a fact about food
+                    <mat-icon color="primary">north</mat-icon>
+                </div>
+            </div>
+            <div style="height: 5px;"></div>
+        </span>
     </div>
-    <form >
+    <form>
         <div class="inputOutputBlock">
-            <input #inputElement [(ngModel)]="input" class="input" type="text" [ngModelOptions]="{standalone: true}"/>
+            <input
+                [(ngModel)]="input"
+                placeholder="Ctrl + K"
+                id="input"
+                #InputForFocus
+                type="text"
+                [ngModelOptions]="{ standalone: true }"
+            />
             <button
-                (click)="addUserMessage(inputElement)"
+                (click)="addUserMessage()"
                 [disabled]="!input"
                 mat-icon-button
                 aria-label="Send message"

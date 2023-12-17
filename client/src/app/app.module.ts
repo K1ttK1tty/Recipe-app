@@ -55,7 +55,7 @@ import { routes } from './simplification';
         RecaptchaV3Module,
         ServiceWorkerModule.register('ngsw-worker.js', {
             enabled: environment.enableServiceWorker,
-            registrationStrategy: 'registerWhenStable:30000',
+            registrationStrategy: 'registerWhenStable:90000',
         }),
         RouterModule,
     ],

@@ -13,11 +13,10 @@ export class AuthInterceptor implements HttpInterceptor {
     addCredentialsFlag = false;
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         this.requestsNumber++;
-        if (environment.urlWithCredentials.includes(req.url)) {
-            this.addCredentialsFlag = true;
-        }
+        if (environment.urlWithCredentials.includes(req.url)) this.addCredentialsFlag = true;
         const customReq = req.clone({ withCredentials: this.addCredentialsFlag });
-        this.loadingService.showLoading();
+
+        if (!environment.urlsDiscardLoading.includes(req.url)) this.loadingService.showLoading();
         return next.handle(customReq).pipe(
             tap({
                 next: value => {

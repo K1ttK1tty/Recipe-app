@@ -55,9 +55,8 @@ class notificationsService {
                 },
             };
             Promise.resolve(webpush.sendNotification(subscription, JSON.stringify(notificationPayload)))
-                .then(ss => {
-                    console.log('ssss:');
-                    console.log(ss);
+                .then(res => {
+                    console.log(res);
                 })
                 .catch(err => {
                     console.error('Error sending notification, reason: ', err);

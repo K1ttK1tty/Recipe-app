@@ -1,3 +1,4 @@
+const axios = require('axios');
 class apiController {
     async fetchRecipes(req, res, next) {
         try {
@@ -9,7 +10,6 @@ class apiController {
                     recipeParams += req.query[key];
                 }
             }
-            console.log(recipeParams);
             const recipes = await fetch(
                 process.env.RECIPES_URL +
                     process.env.RECIPES_API_KEY +
@@ -24,11 +24,22 @@ class apiController {
             next();
         }
     }
-    async botConversation(req,res,next){
+    async botConversation(req, res, next) {
         try {
-            
+            const { userMessage } = req.body;
+            const response = await fetch(process.env.BOT_URL + userMessage, {
+                method: 'GET',
+                headers: {
+                    'x-api-key': process.env.RECIPES_API_KEY,
+                    Accept: 'application/json',
+                    'content-type': 'application/json; charset=UTF-8',
+                },
+            }).then(res => res.json());
+            return res.json(response);
         } catch (err) {
-            
+            return res.json({
+                answerText: "Sorry, I can't talk about it :(",
+            });
         }
     }
 }

@@ -33,7 +33,8 @@ router.post('/refreshPassword', userController.setNewPassword); // not checked
 // work with API
 router.get('/getRecipes/:numberOfSkip', apiController.fetchRecipes);
 router.post('/uploadData', authMiddleware, fileController.uploadData);
-
+// bot endpoints
+router.post('/sendMessageToBot', captchaMiddleware, apiController.botConversation);
 // avatar
 router.post('/uploadAvatar', authMiddleware, fileController.uploadAvatar);
 router.post('/getAvatar', authMiddleware, fileController.getAvatar);

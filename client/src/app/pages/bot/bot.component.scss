@@ -1,49 +1,64 @@
+.wrapper{
+    padding:15px 30px;
+}
+h2{
+    font-size: 25px;
+}
 .fieldContainer {
     max-width: 600px;
     width: 80%;
     margin: 0px auto 15px;
-    box-shadow: 0px 0px 4px 8px rgba(0, 0, 0, 0.3);
-    height: 68vh;
-    padding: 25px 15px;
+    box-shadow: 0px 0px 4px 3px rgba(0, 0, 0, 0.3);
+    height: 60vh;
+    padding: 25px 15px 0px 15px;
     overflow: auto;
+    border-radius: 6px;
 }
 #messagesField {
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-height: 76%;
 }
 .botMessageWrapper {
     text-align: left;
     width: 100%;
     color: white;
-    margin: 18px 0px;
+    margin: 12px 0px;
 }
 .userMessageWrapper {
     text-align: right;
     width: 100%;
     color: white;
-    margin: 18px 0px;
+    margin: 12px 0px;
 }
 .botMessage {
-    padding: 8px 10px;
-    background-color: rgb(114, 62, 62);
+    padding: 9px 12px;
+    background-color: rgb(116, 49, 49);
     line-height: 1.7;
-    border-radius: 8px;
+    border-radius: 12px 12px 12px 0px;
+    font-size: 16px;
+    display: inline-block;
 }
 .userMessage {
-    padding: 8px 10px;
-    background-color: rgb(45, 116, 39);
+    padding: 9px 12px;
+    background-color: rgb(38, 121, 31);
     line-height: 1.7;
-    border-radius: 8px;
+    border-radius: 12px 12px 0px 12px;
+    font-size: 16px;
+    display: inline-block;
 }
-.input {
+#input {
     margin: 0px auto;
     width: 100%;
     margin-right: 6px;
     display: block;
     border-radius: 7px;
-    padding: 8px 6px;
+    border: 1px solid rgba(128, 128, 128, 0.24);
+    box-shadow: 0px 0px 4px 3px rgba(0, 0, 0, 0.15);
+    padding: 10px 10px;
     outline: none;
+    font-size: 16px;
     &:focus {
         box-shadow: 0px 0px 6px 1px #673ab7;
     }
@@ -56,6 +71,29 @@
     justify-content: space-between;
     align-items: center;
 }
+.imageOnBack {
+    background: 50% 0% / auto url("../../../assets/pepe.jpg");
+}
+.defaultQuestionWrapper {
+    margin: 5px 0px !important;
+}
+.defaultQuestion {
+    background: white;
+    color: black;
+    border: 1px solid green;
+    cursor: pointer;
+    line-height: 1 !important;
+}
+@media (max-width: 425px) {
+    .defaultQuestion {
+        font-size: 14px !important;
+    }
+}
+mat-icon {
+    scale: 0.8;
+    margin-bottom: -4px;
+}
+
 ::-webkit-scrollbar {
     width: 6px;
     background: #ebebeb00;

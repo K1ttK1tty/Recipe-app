@@ -6,3 +6,7 @@ export interface IFetch {
     number?: number | undefined;
     totalResults?: number | undefined;
 }
+export interface IBotResponse{
+    answerText:string;
+    media:any 
+}
