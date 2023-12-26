@@ -11,9 +11,4 @@ export class FilterService {
     diet = '';
     dish = '';
     ingridient = '';
-
-    constructor() {}
-    public getKcal(kcal: number) {
-        return kcal;
-    }
 }

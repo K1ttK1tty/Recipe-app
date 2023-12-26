@@ -22,12 +22,12 @@ export class IconsComponent {
     isLike = true;
     constructor(private filterService: FilterService) {}
 
-    public getDiet(diet: string) {
+    public getDiet(diet: string): void {
         if (!this.enableFilter) return;
         this.filterService.panel = 'diet';
         this.filterService.diet = diet;
     }
-    public getIntolerance(intolerance: string) {
+    public getIntolerance(intolerance: string): void {
         if (!this.enableFilter) return;
         this.filterService.panel = 'intolerance';
         this.filterService.intolerance = intolerance;

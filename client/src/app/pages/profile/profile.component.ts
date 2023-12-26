@@ -31,7 +31,7 @@ export class ProfileComponent {
         this.selectedIntolerances = this?.user.data?.filterData.intolerances;
         this.selectedDiets = this?.user.data?.filterData.diets;
     });
-    public changeProfileInfo() {
+    public changeProfileInfo(): void {
         this.isEditMode = false;
         const oldUser = this.user as IUser;
         const newUser: IUser = {
@@ -51,10 +51,10 @@ export class ProfileComponent {
         this.authService.updateUser(newUser);
         console.log(this.user);
     }
-    public getDietState(diet: string) {
+    public getDietState(diet: string): boolean {
         return this.selectedDiets?.includes(diet);
     }
-    public toggleSelectedDiets(diet: string) {
+    public toggleSelectedDiets(diet: string): void {
         if (!this.selectedDiets.includes(diet)) {
             this.selectedDiets.push(diet);
             console.log(this.selectedDiets);
@@ -63,10 +63,10 @@ export class ProfileComponent {
             console.log(this.selectedDiets);
         }
     }
-    public getIntoleranceState(intolerance: string) {
+    public getIntoleranceState(intolerance: string): boolean {
         return this.selectedIntolerances?.includes(intolerance);
     }
-    public toggleSelectedIntolerances(intolerance: string) {
+    public toggleSelectedIntolerances(intolerance: string): void {
         if (!this.selectedIntolerances.includes(intolerance)) {
             this.selectedIntolerances.push(intolerance);
             console.log(this.selectedIntolerances);
@@ -77,16 +77,16 @@ export class ProfileComponent {
             console.log(this.selectedIntolerances);
         }
     }
-    public uploadData(email: string, name: string, userInfo: IUserInfo) {
+    public uploadData(email: string, name: string, userInfo: IUserInfo): void {
         this.authService.uploadData(email, name, userInfo);
     }
-    public logOut() {
+    public logOut(): void {
         this.authService.logOut();
     }
-    public registratePushNotifications() {
+    public registratePushNotifications(): void {
         this.pushNotificService.addSubscription();
     }
-    public sendPushNotification() {
+    public sendPushNotification(): void {
         this.pushNotificService.sendMessage('There is an instruction "how to protect yourself from a group of wolves"');
     }
 }

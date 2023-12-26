@@ -16,11 +16,10 @@ export class PushNotificationsService {
         private catchError: CatchErrorService,
         private snackbarService: SnackbarService,
     ) {}
-    public assingSubscription(sub: PushSubscription) {
+    public assingSubscription(sub: PushSubscription): void {
         this.sub$ = sub;
-        console.log(this.sub$);
     }
-    public addSubscription() {
+    public addSubscription(): void {
         this.http
             .post(
                 `${environment.serverPath}registrateUserPushSubscription`,
@@ -46,7 +45,7 @@ export class PushNotificationsService {
                 this.snackbarService.openSnackbar('Push subscription has been registered');
             });
     }
-    public sendMessage(message: string) {
+    public sendMessage(message: string): void {
         this.http
             .post(
                 `${environment.serverPath}sendNotification`,

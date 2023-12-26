@@ -3,7 +3,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ReCaptchaV3Service } from 'ng-recaptcha';
-import { catchError } from 'rxjs';
+import { Observable, Subscription, catchError } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from 'src/enviroment/enviroment';
 
@@ -25,20 +25,22 @@ export class AuthService {
     ) {}
     private isUserAuthorized = new BehaviorSubject(false);
     private user = new BehaviorSubject<IUser | {}>({});
-    public getUser() {
+    public getUser(): Observable<IUser> {
         return this.user.asObservable() as BehaviorSubject<IUser>;
     }
-    public updateUser(data: IUser) {
+    public updateUser(data: IUser): void {
         this.user.next(data);
     }
-    readonly getAuthState = this.isUserAuthorized.asObservable();
-    public authorize() {
+    public getAuthState(): Observable<boolean> {
+        return this.isUserAuthorized.asObservable();
+    }
+    public authorize(): void {
         this.isUserAuthorized.next(true);
     }
-    public unAuthorize() {
+    public unAuthorize(): void {
         this.isUserAuthorized.next(false);
     }
-    public registration(name: string, email: string, password: string) {
+    public registration(name: string, email: string, password: string): void {
         this.recaptchaV3Service.execute('important').subscribe((captchaToken: string) => {
             return this.http
                 .post(`${environment.serverPath}registration`, {
@@ -58,7 +60,7 @@ export class AuthService {
                 });
         });
     }
-    public async login(email: string, password: string) {
+    public login(email: string, password: string): void {
         this.recaptchaV3Service.execute('important').subscribe((captchaToken: string) => {
             return this.http
                 .post<ILogin>(`${environment.serverPath}login`, {
@@ -82,7 +84,7 @@ export class AuthService {
                 });
         });
     }
-    public async logOut() {
+    public logOut(): void {
         this.recaptchaV3Service.execute('important').subscribe((captchaToken: string) => {
             this.http
                 .post(`${environment.serverPath}logout`, { captchaToken })
@@ -100,8 +102,8 @@ export class AuthService {
                 });
         });
     }
-    public refresh() {
-        return this.http
+    public refresh(): void {
+        this.http
             .get<ILogin>(`${environment.serverPath}refresh`)
             .pipe(
                 catchError(error => {
@@ -116,7 +118,7 @@ export class AuthService {
                 localStorage.setItem('token', resp.accessToken);
             });
     }
-    public uploadData(email: string, name: string, userInfo: IUserInfo) {
+    public uploadData(email: string, name: string, userInfo: IUserInfo): void {
         this.http
             .post(
                 `${environment.serverPath}uploadData`,

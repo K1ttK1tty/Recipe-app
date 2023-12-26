@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
         this.apiService.getMockRecipes();
         this.subscribeNotifications();
     }
-    public subscribeNotifications() {
+    public subscribeNotifications(): void {
         this.swPush
             .requestSubscription({
                 serverPublicKey: environment.vapidPublicKey,
@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
             })
             .catch(err => console.log(err));
     }
-    public getRouteAnimationData() {
+    public getRouteAnimationData(): any {
         return this.contexts.getContext('primary')?.route?.snapshot?.data?.['animation'];
     }
 }

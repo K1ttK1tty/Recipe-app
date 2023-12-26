@@ -15,15 +15,15 @@ export class RecipeCardComponent {
         private router: Router,
     ) {}
     @Input() recipe!: IRecipe;
-    public getTime() {
+    public getTime(): void {
         this.filterService.time = this.recipe.readyInMinutes;
         this.filterService.panel = 'time';
     }
-    public getCalories() {
+    public getCalories(): void {
         this.filterService.calories = this.recipe.nutrition.nutrients[0].amount;
         this.filterService.panel = 'kcal';
     }
-    public getDishType(dish: string) {
+    public getDishType(dish: string): void {
         this.filterService.dish = dish;
         this.filterService.panel = 'dish';
     }
@@ -33,13 +33,13 @@ export class RecipeCardComponent {
     }
 
     private number = 0;
-    public setNumber(x: number) {
+    public setNumber(x: number): void {
         this.number = x;
     }
-    public getNumber() {
+    public getNumber(): number {
         return this.number;
     }
-    public navigate() {
+    public navigate(): void {
         this.router.navigateByUrl('/recipe/' + this.recipe.id, { state: { recipe: this.recipe } });
     }
 }

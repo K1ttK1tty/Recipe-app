@@ -11,7 +11,7 @@ import { IRecipe } from 'src/app/models/RecipeModel';
 })
 export class RecipesComponent {
     constructor(private apiService: ApiService) {
-        this.apiService.allRecipes.subscribe(resp => {
+        this.apiService.getAllRecipes().subscribe(resp => {
             if (!resp) {
                 this.unableToFetchRecipes$.next(true);
                 return;
@@ -28,7 +28,7 @@ export class RecipesComponent {
     mockRecipes?: IRecipe[] | [];
     pageWidth: number = window.innerWidth;
     numberOfCols: string = this.colsNumber(window.innerWidth);
-    public changeFilterPosition() {
+    public changeFilterPosition(): void {
         this.leftFilterPosition$.next(!this.leftFilterPosition$.value);
     }
 

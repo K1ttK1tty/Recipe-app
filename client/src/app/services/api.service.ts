@@ -1,7 +1,7 @@
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError } from 'rxjs';
 import { environment } from 'src/enviroment/enviroment';
 
 import { IQueryParams } from '../models/RecipeModel';
@@ -16,13 +16,15 @@ import { CatchErrorService } from './catch-error.service';
 })
 export class ApiService {
     skipNumber = 0;
-    allRecipes: BehaviorSubject<IRecipe[] | undefined> = new BehaviorSubject<IRecipe[] | undefined>(undefined);
+    private allRecipes: BehaviorSubject<IRecipe[] | undefined> = new BehaviorSubject<IRecipe[] | undefined>(undefined);
     constructor(
         private http: HttpClient,
         private catchError: CatchErrorService,
     ) {}
-
-    public getRecipes(params?: IQueryParams): Observable<HttpResponse<IFetch>> {
+    public getAllRecipes(): Observable<IRecipe[] | undefined> {
+        return this.allRecipes.asObservable();
+    }
+    public getRecipes(params?: IQueryParams): void {
         const currentParams = new HttpParams({ fromObject: params });
         // console.log(currentParams);
         const recipes = this.http
@@ -35,24 +37,20 @@ export class ApiService {
         recipes.subscribe(resp => {
             console.log(resp.body);
         });
-        return recipes;
     }
     public getMockRecipes(): void {
+        // don't needs to be covered by tests
         this.http
             .get<IFetch>('../../assets/DADATA.json')
             .pipe(catchError(this.catchError.catchErrorHandler))
             .subscribe(resp => {
                 this.allRecipes?.next(resp.results);
+                console.log(resp.results);
             });
     }
-    public getlistOfIngridients() {
+    public getlistOfIngridients(): Observable<IIngridietnsList[]> {
         return this.http
             .get<IIngridietnsList[]>('../../assets/listOfIngredients.json')
             .pipe(catchError(this.catchError.catchErrorHandler));
-    }
-    public handleRecipeError(error: HttpErrorResponse) {
-        return throwError(() => {
-            // return new Error('Something went wrong. Please try again later.');
-        });
     }
 }

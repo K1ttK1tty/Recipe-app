@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class NavbarComponent {
     constructor(private AuthService: AuthService) {}
     windowScreen = window.innerWidth;
-    subscription$ = this.AuthService.getAuthState.subscribe(resp => {
+    subscription$ = this.AuthService.getAuthState().subscribe(resp => {
         this.isAuthorized = resp;
     });
     isAuthorized = false;

@@ -23,11 +23,11 @@ export class RecipePageComponent {
         const iteratedNutrients = [...this.recipe.nutrition.nutrients];
         this.nutriets = iteratedNutrients.filter(this.remainNutrients);
     }
-    public goBack() {
+    public goBack(): void {
         window.history.back();
     }
 
-    private remainNutrients(nutrient: INutruent) {
+    private remainNutrients(nutrient: INutruent): boolean {
         const nutrientsNames = [
             'Calories',
             'Carbohydrates',

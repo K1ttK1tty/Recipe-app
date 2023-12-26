@@ -32,7 +32,7 @@ export class BotComponent {
         }
     }
     input?: string;
-    public addBotMessage(message: string) {
+    public addBotMessage(message: string): void {
         const scrollBlock = document.getElementById('scrollBlock');
         const fieldWithMessages = document.getElementById('messagesField');
         const botMessageWrapper = this.render.createElement('div');
@@ -45,7 +45,7 @@ export class BotComponent {
         this.render.appendChild(fieldWithMessages, botMessageWrapper);
         scrollBlock?.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
-    public addUserMessage(defaultQuestion?: string) {
+    public addUserMessage(defaultQuestion?: string): void {
         let message: string = '';
         if (defaultQuestion) message = defaultQuestion;
         else if (this.input) message = this.input;

@@ -35,31 +35,31 @@ export class AuthorizationComponent {
         }),
     });
 
-    public getRegEmailError() {
+    public getRegEmailError(): string {
         if (this.registrationForm.controls.email.hasError('required')) return 'This field is required';
         return this.registrationForm.controls.email.hasError('email') ? 'Not a valid field' : '';
     }
-    public getRegNameError() {
+    public getRegNameError(): string {
         return this.registrationForm.controls.name.hasError('required') ? 'This field is required' : '';
     }
-    public getRegPasswordError() {
+    public getRegPasswordError(): string {
         if (this.registrationForm.controls.password.hasError('required')) return 'This field is required';
         return this.registrationForm.controls.password.hasError('minlength')
             ? 'Value must have more than 4 symbols'
             : '';
     }
-    public getLoginEmailError() {
+    public getLoginEmailError(): string {
         if (this.loginForm.controls.email.hasError('required')) return 'This field is required';
         return this.loginForm.controls.email.hasError('email') ? 'Not a valid field' : '';
     }
-    public getLoginPasswordError() {
+    public getLoginPasswordError(): string {
         if (this.loginForm.controls.password.hasError('required')) return 'This field is required';
         return this.loginForm.controls.password.hasError('minlength') ? 'Value must have more than 4 symbols' : '';
     }
-    public logIn() {
+    public logIn(): void {
         this.authService.login(this.loginForm.controls.email.value, this.loginForm.controls.password.value);
     }
-    public registration() {
+    public registration(): void {
         this.authService.registration(
             this.registrationForm.controls.name.value,
             this.registrationForm.controls.email.value,

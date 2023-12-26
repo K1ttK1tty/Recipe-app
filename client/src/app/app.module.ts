@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule, importProvidersFrom } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,7 +26,6 @@ import { RecipesComponent } from './pages/recipes/recipes.component';
 import { AllInterceptors } from './services/apiInterceptors/AllInterceptors';
 import { materialImports } from './simplification';
 import { routes } from './simplification';
-
 @NgModule({
     declarations: [
         AppComponent,
@@ -40,6 +39,7 @@ import { routes } from './simplification';
         IconsComponent,
         FilterComponentComponent,
         NotFoundPageComponent,
+        
     ],
     imports: [
         RouterOutlet,
@@ -61,9 +61,10 @@ import { routes } from './simplification';
     ],
     providers: [
         { provide: RECAPTCHA_V3_SITE_KEY, useValue: environment.recaptchaKey || 'recaptchaKeyRequired' },
-        importProvidersFrom(HttpClientModule),
+        // importProvidersFrom(HttpClientModule),
         AllInterceptors,
     ],
     bootstrap: [AppComponent],
+    
 })
 export class AppModule {}

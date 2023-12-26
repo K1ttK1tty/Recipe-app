@@ -103,7 +103,7 @@ export class FilterComponentComponent implements DoCheck {
     enableCarbohydrates = false;
     enableTime = false;
 
-    public send() {
+    public send(): void {
         const result: IQueryParams = {
             cuisines: this.selectedCuisines.length > 0 ? `&cuisine=${[...this.selectedCuisines].join(',')}` : false,
             diets: this.selectedDiets.length > 0 ? `&diet=${[...this.selectedDiets].join('|')}` : false,
@@ -131,7 +131,7 @@ export class FilterComponentComponent implements DoCheck {
         }
         console.log(result);
     }
-    public disable() {
+    public disable(): void {
         this.maxCalories = 800;
         this.minCalories = 0;
         this.minFat = 0;
@@ -156,12 +156,12 @@ export class FilterComponentComponent implements DoCheck {
         this.selectedCuisines = [];
         this.selectedIngridients = [];
     }
-    private shareLogic() {
+    private shareLogic(): void {
         this.isPanelOpen = this.filterService.panel;
         if (this.isDisable) this.isDisable = false;
         this.filterService.panel = '';
     }
-    public enableReset() {
+    public enableReset(): void {
         this.isDisable = false;
     }
     public toggleAndDisableFalse(
@@ -172,14 +172,14 @@ export class FilterComponentComponent implements DoCheck {
             | 'enableFats'
             | 'includeStepByStepCooking'
             | 'enableCalories',
-    ) {
+    ): void {
         this[variable] = !this[variable];
         this.isDisable = false;
     }
-    public getDishTypeState(dishType: string) {
+    public getDishTypeState(dishType: string): boolean {
         return this.selectedDishTypes.includes(dishType);
     }
-    public toggleSelectedDishTypes(dishType: string) {
+    public toggleSelectedDishTypes(dishType: string): void {
         if (this.isDisable) this.isDisable = false;
         if (!this.selectedDishTypes.includes(dishType)) {
             this.selectedDishTypes.push(dishType);
@@ -189,10 +189,10 @@ export class FilterComponentComponent implements DoCheck {
             console.log(this.selectedDishTypes);
         }
     }
-    public getDietState(diet: string) {
+    public getDietState(diet: string): boolean {
         return this.selectedDiets.includes(diet);
     }
-    public toggleSelectedDiets(diet: string) {
+    public toggleSelectedDiets(diet: string): void {
         if (this.usersDietsAndIntolerances?.diets.includes(diet)) return;
 
         if (this.isDisable) this.isDisable = false;
@@ -202,10 +202,10 @@ export class FilterComponentComponent implements DoCheck {
             this.selectedDiets = this.selectedDiets.filter(currentDiet => currentDiet !== diet);
         }
     }
-    public getIntoleranceState(intolerance: string) {
+    public getIntoleranceState(intolerance: string): boolean {
         return this.selectedIntolerances.includes(intolerance);
     }
-    public toggleSelectedIntolerances(intolerance: string) {
+    public toggleSelectedIntolerances(intolerance: string): void {
         if (this.usersDietsAndIntolerances?.intolerances.includes(intolerance)) {
             return;
         }
@@ -219,10 +219,10 @@ export class FilterComponentComponent implements DoCheck {
             );
         }
     }
-    public getCuisineState(cuisine: string) {
+    public getCuisineState(cuisine: string): boolean {
         return this.selectedCuisines.includes(cuisine);
     }
-    public toggleSelectedCuisines(cuisine: string) {
+    public toggleSelectedCuisines(cuisine: string): void {
         if (this.isDisable) this.isDisable = false;
         if (!this.selectedCuisines.includes(cuisine)) {
             this.selectedCuisines.push(cuisine);

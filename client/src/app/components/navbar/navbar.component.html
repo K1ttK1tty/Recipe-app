@@ -19,9 +19,9 @@
             mat-flat-button
             >Profile</a
         >
-        <a [routerLinkActive]="'activeRoute'" [routerLink]="['favorites']" color="primary" mat-flat-button>
+        <!-- <a [routerLinkActive]="'activeRoute'" [routerLink]="['favorites']" color="primary" mat-flat-button>
             My favorites
-        </a>
+        </a> -->
         <a [routerLinkActive]="'activeRoute'" [routerLink]="['bot']" color="primary" mat-flat-button>Bot</a>
         <a
             *ngIf="!isAuthorized"
@@ -55,13 +55,13 @@
                 mat-menu-item
                 >Profile</a
             >
-            <a
+            <!-- <a
                 (click)="setPath('My favorites')"
                 [routerLinkActive]="'activeRoute'"
                 [routerLink]="['favorites']"
                 mat-menu-item
                 >My favorites</a
-            >
+            > -->
             <a (click)="setPath('Bot')" [routerLinkActive]="'activeRoute'" [routerLink]="['bot']" mat-menu-item>Bot</a>
             <a
                 (click)="setPath('Sigh up/Log in')"

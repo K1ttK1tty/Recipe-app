@@ -86,7 +86,7 @@ export interface INutruent {
 }
 export interface IProperties {
     name: string;
-    amount: string;
+    amount: number;
     unit: string;
 }
 interface IAnalyzedInstructions {
